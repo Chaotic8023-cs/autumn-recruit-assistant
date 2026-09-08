@@ -1,0 +1,15 @@
+# Dependencies and operating-system metadata
+node_modules/
+.DS_Store
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.local
+
+# User-exported data and local test output
+autumn-desk-backup-*.json
+autumn-desk-color-schemes-*.json
+coverage/
+*.log

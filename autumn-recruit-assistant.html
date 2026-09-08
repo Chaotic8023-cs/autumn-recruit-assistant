@@ -1,0 +1,1148 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>秋招助手 · Autumn Desk</title>
+  </head>
+  <body>
+    <div id="app"></div><style>:root { --radius:18px; font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; color:var(--ink); background:var(--canvas); }
+* { box-sizing:border-box; } [hidden] { display:none !important; } body { margin:0; background:var(--canvas); } button,input,select,textarea { font:inherit; } button { cursor:pointer; } .app-shell { min-height:100vh; display:flex; }
+.sidebar { width:238px; padding:30px 18px 22px; background:#f1f4f5; border-right:1px solid #e5eaec; display:flex; flex-direction:column; flex-shrink:0; }
+.brand { display:flex; align-items:center; gap:11px; padding:0 12px 42px; } .brand-mark { width:37px; height:37px; display:grid; place-items:center; color:#fff; background:var(--navy); border-radius:12px 12px 12px 4px; font-family:serif; font-size:21px; box-shadow:0 5px 14px rgba(41,61,80,.2); } .brand strong { display:block; font-size:15px; letter-spacing:.04em; } .brand small { display:block; margin-top:3px; color:#a0aab0; font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
+.workspace-label,.section-kicker,.eyebrow { color:#a1abb2; font-size:10px; letter-spacing:.16em; font-weight:700; text-transform:uppercase; } .workspace-label { padding:0 12px 12px; }
+.nav-list { display:grid; gap:6px; } .nav-item { border:0; background:transparent; color:#7d8991; width:100%; padding:11px 12px; border-radius:10px; text-align:left; font-size:13px; display:flex; align-items:center; gap:11px; } .nav-item:hover { background:#e9eef0; color:var(--ink); } .nav-item.active { background:#fff; color:var(--ink); box-shadow:0 4px 16px rgba(48,67,80,.06); font-weight:700; } .nav-icon { width:19px; text-align:center; font-size:16px; color:#9aa5ab; } .nav-item.active .nav-icon { color:var(--blue); } .nav-item em { margin-left:auto; color:#a1abb2; font-style:normal; font-size:11px; }
+.sidebar-spacer { flex:1; min-height:70px; } .safety-note { padding:13px 12px; display:flex; gap:10px; border:1px solid #e1e8e9; background:rgba(255,255,255,.55); border-radius:12px; color:#819098; } .safety-note > span { color:#4eae8c; font-size:17px; } .safety-note strong { font-size:11px; color:#62727a; } .safety-note p { margin:4px 0 0; font-size:10px; } .sidebar-footer { margin:20px 12px 0; color:#aab3b8; font-size:10px; } .sidebar-footer span { float:right; }
+.main-area { min-width:0; flex:1; } .topbar { height:128px; padding:34px 5.4vw 22px; display:flex; justify-content:space-between; align-items:flex-start; background:var(--canvas); } .topbar h1 { margin:5px 0 2px; font-size:24px; letter-spacing:-.03em; } .topbar p { color:var(--muted); font-size:12px; margin:0; } .top-actions { display:flex; gap:10px; align-items:center; }
+.button { border:0; border-radius:9px; padding:10px 15px; font-size:12px; font-weight:700; transition:transform .15s, box-shadow .15s, background .15s; } .button:hover { transform:translateY(-1px); } .button.primary { color:#fff; background:var(--blue); box-shadow:0 5px 13px rgba(57,120,238,.19); } .button.secondary { color:var(--blue); background:var(--blue-soft); } .button.ghost { color:#76848b; background:transparent; border:1px solid #dfe5e8; } .button.small { padding:7px 10px; font-size:11px; }
+.page-content { max-width:1370px; padding:0 5.4vw 48px; } .welcome-row,.list-intro { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:24px; } .date-chip { display:inline-block; color:#98a3a9; font-size:11px; } h2 { margin:7px 0 0; font-size:20px; letter-spacing:-.03em; } .quick-add { display:flex; align-items:center; gap:10px; min-width:275px; padding:12px 15px; border:1px solid #e5ebee; background:#fff; border-radius:12px; box-shadow:0 7px 20px rgba(54,72,84,.05); text-align:left; color:var(--ink); } .quick-add > span { width:29px; height:29px; display:grid; place-items:center; border-radius:9px; color:var(--blue); background:var(--blue-soft); font-size:21px; font-weight:300; } .quick-add strong { display:block; font-size:12px; } .quick-add small { color:var(--muted); font-size:10px; display:block; margin-top:3px; } .quick-add b { color:#b2bdc2; margin-left:auto; font-size:10px; font-weight:500; }
+.stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:13px; margin-bottom:17px; } .stat-card { position:relative; overflow:hidden; padding:19px 20px 17px; min-height:136px; border:1px solid var(--line); border-radius:14px; background:#fff; } .stat-icon { position:absolute; right:19px; top:16px; font-size:19px; color:#a4b1b8; } .stat-title { color:#7d8b92; font-size:12px; } .stat-value { font-size:35px; font-weight:700; line-height:1.1; margin-top:14px; letter-spacing:-.05em; } .stat-desc { color:#adb6bb; font-size:10px; margin-top:5px; } .stat-card.progress .stat-value { color:#4c8de9; } .stat-card.interview .stat-value { color:#9173db; } .stat-card.offer .stat-value { color:#43aa83; } .stat-card.offer { background:linear-gradient(135deg,#fff 60%,#f1fbf6); }
+.overview-grid { display:grid; grid-template-columns:1.05fr .95fr; gap:17px; } .panel { border:1px solid var(--line); background:#fff; border-radius:14px; } .funnel-panel,.recent-panel { padding:22px 23px; min-height:355px; } .panel-heading { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:24px; } .panel-heading h3,.data-card h3 { font-size:14px; margin:6px 0 0; } .muted { color:#9ca8ae; font-size:11px; } .text-button { color:#71818a; padding:2px 0; border:0; background:transparent; font-size:11px; } .text-button:hover { color:var(--blue); } .funnel-list { display:grid; gap:13px; } .funnel-row { display:grid; grid-template-columns:90px 1fr 25px; gap:11px; align-items:center; } .funnel-label .status-badge { min-width:72px; } .bar-track { background:#f2f4f5; height:7px; border-radius:99px; overflow:hidden; } .bar { height:100%; min-width:0; border-radius:99px; } .bar.tone-slate { background:#9caeb9; } .bar.tone-blue { background:#679ef0; } .bar.tone-violet { background:#a18ce2; } .bar.tone-amber { background:#e9b65d; } .bar.tone-orange { background:#ec9867; } .bar.tone-coral { background:#e27f8b; } .bar.tone-pink { background:#cc87b7; } .bar.tone-green { background:#6abb94; } .bar.tone-red { background:#db8585; } .funnel-row > strong { text-align:right; font-size:11px; color:#64747b; }
+.status-badge { display:inline-grid; min-height:24px; padding:0 9px; place-items:center; border-radius:6px; color:#64737c; background:#f1f4f5; font-size:11px; line-height:1; text-align:center; white-space:nowrap; } .status-badge.compact { min-height:20px; padding:0 7px; font-size:10px; } .tone-slate { color:#718794; background:#edf2f4; } .tone-blue { color:#4b86df; background:#edf4ff; } .tone-violet { color:#8b72d0; background:#f3efff; } .tone-amber { color:#bd8a35; background:#fff6df; } .tone-orange { color:#cf7b40; background:#fff0e7; } .tone-coral { color:#c65d6f; background:#fff0f1; } .tone-pink { color:#ac6d99; background:#f9eff7; } .tone-green { color:#43976f; background:#ebf8f1; } .tone-red { color:#c76565; background:#fff0f0; }
+.activity-list { display:grid; } .activity-item { display:flex; align-items:center; width:100%; gap:11px; padding:11px 0; text-align:left; color:var(--ink); border:0; border-bottom:1px solid #f0f2f3; background:none; } .activity-item:last-child { border-bottom:0; } .activity-item:hover .activity-copy strong { color:var(--blue); } .activity-dot { width:8px; height:8px; flex-shrink:0; border-radius:50%; background:#a5b4bc; } .activity-dot.blue { background:#6899eb; } .activity-dot.green { background:#6bbb94; } .activity-dot.violet { background:#a08be0; } .activity-dot.amber { background:#e3af55; } .activity-dot.orange { background:#ec9867; } .activity-dot.red { background:#db8585; } .activity-copy { min-width:0; flex:1; } .activity-copy strong,.activity-copy span { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .activity-copy strong { font-size:11px; } .activity-copy span { color:#8b989e; font-size:10px; margin-top:3px; } .activity-item time { color:#b0b9bd; font-size:10px; white-space:nowrap; }
+.tip-card { display:flex; align-items:center; gap:13px; position:relative; overflow:hidden; margin-top:17px; padding:15px 20px; color:#60717b; background:#edf6fb; border:1px solid #e3eff4; border-radius:14px; } .tip-mark { color:#5ba1b8; font-size:19px; } .tip-card p { margin:5px 0 0; font-size:11px; } .tip-decoration { position:absolute; right:30px; color:#c9e5ef; font-size:33px; transform:rotate(20deg); }
+.list-intro { align-items:end; margin-bottom:20px; } .list-intro h2 span { color:#aab5ba; font-size:14px; margin-left:5px; } .list-intro p { color:#98a4aa; font-size:11px; margin:0; } .toolbar { display:flex; gap:9px; align-items:center; margin-bottom:13px; } .search-box { display:flex; align-items:center; gap:8px; flex:1; max-width:380px; padding:0 12px; height:36px; background:#fff; border:1px solid #e2e8eb; border-radius:8px; color:#9caab0; } .search-box input { flex:1; min-width:0; border:0; outline:0; color:var(--ink); font-size:11px; background:transparent; } select { min-width:112px; height:36px; padding:0 28px 0 11px; border:1px solid #e2e8eb; border-radius:8px; color:#718088; background:#fff; font-size:11px; outline:0; } .filter-toggle { height:36px; padding:0 11px; border:1px solid #e2e8eb; border-radius:8px; background:transparent; color:#8c999f; font-size:11px; } .filter-toggle.on { border-color:#b9d0fa; color:var(--blue); background:var(--blue-soft); }
+.table-panel { overflow:hidden; border:1px solid var(--line); border-radius:14px; background:#fff; } .table-head,.table-row { display:grid; grid-template-columns:minmax(180px,1.6fr) .8fr .8fr 1fr 1fr 80px; gap:15px; align-items:center; } .table-head { padding:13px 19px; background:#fbfcfc; border-bottom:1px solid var(--line); color:#a1adb2; font-size:10px; } .table-row { min-height:72px; padding:10px 19px; border-bottom:1px solid #f0f2f3; font-size:11px; } .table-row:last-child { border-bottom:0; } .company-cell { min-width:0; } .company-cell .company-name { display:block; padding:0; border:0; background:transparent; color:var(--ink); font-weight:700; font-size:12px; text-align:left; } .company-cell .company-name:hover { color:var(--blue); } .company-cell > span { display:block; margin-top:5px; overflow:hidden; color:#929fa5; text-overflow:ellipsis; white-space:nowrap; } .cell { color:#61717a; } .inline-status { min-width:105px; width:auto; height:29px; border:1px solid transparent; padding:0 21px 0 7px; background:#f7f9f9; color:#65757d; } .inline-status:hover,.inline-status:focus { border-color:#cddced; } .row-actions { display:flex; justify-content:flex-end; gap:3px; } .icon-button { width:28px; height:28px; border:0; border-radius:7px; color:#a4afb5; background:transparent; font-size:16px; } .icon-button:hover { background:#f1f4f5; color:var(--blue); } .danger-icon:hover { color:#cc7777; background:#fff0f0; } .green-icon:hover { color:#4da77d; background:#ecfaf2; } .deleted-row { background:#fbfbfb; opacity:.75; } .deleted-label { display:inline-block; color:#b38383; background:#fff2f2; border-radius:5px; padding:5px 7px; font-size:10px; }
+.empty-state { grid-column:1/-1; padding:68px 20px; text-align:center; color:#a6b1b6; } .empty-icon { margin:0 auto 12px; width:34px; height:34px; display:grid; place-items:center; border:1px dashed #cbd5d9; border-radius:50%; color:#bdc8cd; } .empty-state strong { color:#71818a; font-size:12px; } .empty-state p { margin:7px 0 0; font-size:11px; }
+.drawer-backdrop,.modal-backdrop { position:fixed; inset:0; z-index:10; background:rgba(27,39,47,.24); backdrop-filter:blur(2px); } .drawer { position:fixed; z-index:11; top:0; right:0; bottom:0; width:min(550px,100vw); background:#fbfcfc; box-shadow:-15px 0 50px rgba(31,46,55,.16); animation:slideIn .22s ease-out; } @keyframes slideIn { from { transform:translateX(30px); opacity:.3; } to { transform:translateX(0); opacity:1; } } .drawer-head { padding:30px 30px 22px; display:flex; align-items:flex-start; justify-content:space-between; border-bottom:1px solid var(--line); } .drawer-head > div { display:flex; gap:12px; } .company-avatar { width:43px; height:43px; display:grid; place-items:center; flex-shrink:0; border-radius:12px; color:#4b82db; background:#eaf2ff; font-size:19px; font-weight:700; } .drawer-title h2 { margin-top:5px; font-size:21px; } .drawer-title a { display:block; margin-top:7px; color:#6a99dc; font-size:10px; text-decoration:none; } .close-button { width:29px; height:29px; border:0; border-radius:8px; background:#f0f3f4; color:#89969c; font-size:21px; line-height:1; } .close-button:hover { color:var(--ink); background:#e6ecee; } .drawer-body { height:calc(100% - 110px); overflow:auto; padding:24px 30px 50px; } .drawer-section + .drawer-section { margin-top:30px; } .section-title { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; } .section-title h3 { margin:0; font-size:13px; } .section-title span { color:#a8b1b6; font-size:10px; } .drawer-apps { display:grid; gap:8px; } .drawer-app { padding:13px 14px; border:1px solid #e6ecee; border-radius:11px; background:#fff; } .drawer-app-top { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; } .drawer-app-top strong { display:block; font-size:12px; } .drawer-app-top > div > span { display:block; margin-top:5px; color:#98a4aa; font-size:10px; } .drawer-note { margin:11px 0 0; padding:9px 10px; color:#77868d; background:#faf8f2; border-radius:7px; font-size:10px; line-height:1.6; white-space:pre-wrap; } .drawer-app-actions { display:flex; justify-content:flex-end; gap:13px; margin-top:12px; } .drawer-app-actions .note-button { color:#4a91bc; } .deleted-card { opacity:.65; } .timeline { position:relative; } .timeline-item { position:relative; display:flex; gap:12px; padding-bottom:22px; } .timeline-line { position:absolute; left:4px; top:12px; bottom:-2px; width:1px; background:#e4eaec; } .timeline-item:last-child .timeline-line { display:none; } .timeline-dot { z-index:1; width:9px; height:9px; margin-top:4px; flex-shrink:0; border:2px solid #b9c7cd; border-radius:50%; background:#fbfcfc; } .timeline-dot.active { border-color:#6d9eeb; background:#6d9eeb; box-shadow:0 0 0 4px #eaf2ff; } .timeline-content { flex:1; min-width:0; } .timeline-meta { display:flex; justify-content:space-between; gap:8px; } .timeline-meta strong { color:#63737b; font-size:11px; } .timeline-meta time { color:#aeb8bc; font-size:10px; } .timeline-content p { margin:5px 0 0; color:#8b989e; font-size:10px; line-height:1.5; } .change-pills { display:flex; align-items:center; gap:7px; margin-top:8px; } details { margin-top:8px; color:#8b989e; font-size:10px; } details summary { cursor:pointer; } details pre { overflow:auto; padding:7px; background:#f7f8f8; color:#718089; font:9px/1.5 monospace; }
+.modal-backdrop { z-index:20; display:grid; place-items:center; padding:20px; } .modal { width:min(590px,100%); max-height:calc(100vh - 40px); overflow:auto; border-radius:16px; background:#fff; box-shadow:0 25px 70px rgba(27,40,49,.2); animation:popIn .18s ease-out; } @keyframes popIn { from { transform:scale(.97); opacity:0; } to { transform:scale(1); opacity:1; } } .modal-head { display:flex; justify-content:space-between; padding:25px 28px 20px; border-bottom:1px solid var(--line); } .modal-head h2 { margin-top:6px; } #applicationForm { padding:22px 28px 24px; } .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:15px; } label { display:block; color:#7d8b92; font-size:11px; } label.full { grid-column:1/-1; } input,textarea { width:100%; display:block; margin-top:7px; border:1px solid #e1e8ea; border-radius:8px; outline:0; padding:10px 11px; color:var(--ink); background:#fcfdfd; font-size:12px; } input:focus,textarea:focus,select:focus { border-color:#9bbbf4; box-shadow:0 0 0 3px #edf4ff; } textarea { resize:vertical; line-height:1.5; } input:disabled { background:#f3f5f5; color:#929da2; } .advanced-form { margin-top:19px; padding-top:16px; border-top:1px solid #f0f2f3; } .advanced-form summary { cursor:pointer; color:#829198; font-size:11px; } .advanced-form .form-grid { margin-top:16px; } .modal-foot { display:flex; justify-content:flex-end; gap:9px; margin-top:23px; padding-top:18px; border-top:1px solid #f0f2f3; }
+.data-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:17px; } .data-card { padding:25px; min-height:230px; } .data-card-icon { width:37px; height:37px; display:grid; place-items:center; margin-bottom:18px; border-radius:10px; font-size:19px; } .blue-icon { color:#4b86df; background:#edf4ff; } .violet-icon { color:#8b72d0; background:#f3efff; } .data-card p { max-width:380px; min-height:36px; margin:9px 0 21px; color:#919da3; font-size:11px; line-height:1.7; } .empty-inline { padding:21px 0; color:#a6b1b6; font-size:11px; text-align:center; } .storage-note { display:flex; gap:11px; align-items:center; margin-top:16px; padding:14px 17px; color:#6d8880; background:#eef9f4; border:1px solid #e0f0e8; border-radius:11px; } .storage-note > span { width:24px; height:24px; display:grid; place-items:center; border-radius:50%; background:#d7f2e5; color:#42a579; } .storage-note strong { display:block; color:#4c7d6d; font-size:11px; } .storage-note p { margin:4px 0 0; color:#84a396; font-size:10px; }
+.toast { position:fixed; z-index:50; left:50%; bottom:25px; transform:translate(-50%,15px); opacity:0; pointer-events:none; padding:11px 17px; color:#fff; background:#2f414e; border-radius:9px; box-shadow:0 8px 30px rgba(32,50,61,.18); font-size:11px; transition:.2s; } .toast.show { opacity:1; transform:translate(-50%,0); } .toast.error { background:#b76565; }
+@media (max-width:900px) { .sidebar { width:70px; padding:22px 10px; } .brand { padding:0 5px 34px; } .brand > div { display:none; } .workspace-label,.nav-item:not(.active) em,.nav-item { font-size:0; } .brand-mark { margin:auto; } .nav-item { justify-content:center; padding:12px 5px; } .nav-icon { font-size:17px; } .nav-item.active { font-size:0; } .nav-item.active .nav-icon { font-size:17px; } .safety-note,.sidebar-footer { display:none; } .topbar,.page-content { padding-left:28px; padding-right:28px; } }
+@media (max-width:700px) { .topbar { height:auto; padding-top:24px; gap:16px; flex-direction:column; } .top-actions { width:100%; } .top-actions .button { flex:1; } .welcome-row,.list-intro { align-items:flex-start; flex-direction:column; gap:16px; } .quick-add { width:100%; } .stats-grid { grid-template-columns:1fr 1fr; } .overview-grid,.data-grid { grid-template-columns:1fr; } .toolbar { flex-wrap:wrap; } .search-box { flex-basis:100%; max-width:none; } .table-head { display:none; } .table-row { grid-template-columns:1fr auto; gap:9px; padding:15px; } .table-row .cell:nth-child(2),.table-row .cell:nth-child(3),.table-row .cell:nth-child(5) { font-size:10px; } .table-row .cell:nth-child(2) { grid-column:1; grid-row:2; } .table-row .cell:nth-child(3) { grid-column:2; grid-row:2; } .table-row .status-cell { grid-column:1; grid-row:3; } .table-row .row-actions { grid-column:2; grid-row:3; } .form-grid { grid-template-columns:1fr; } label.full { grid-column:auto; } .modal { max-height:100vh; } #applicationForm,.modal-head { padding-left:20px; padding-right:20px; } .drawer-head,.drawer-body { padding-left:20px; padding-right:20px; } }
+
+/* Keep controls inside application forms aligned with text inputs. */
+#applicationForm select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 39px;
+  margin-top: 7px;
+  padding: 0 28px 0 11px;
+  border: 1px solid #e1e8ea;
+  border-radius: 8px;
+  color: var(--ink);
+  background: #fcfdfd;
+  font-size: 12px;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 11px;
+  border: 1px solid #dfe5e8;
+  border-radius: 9px;
+  color: #76848b;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 700;
+}
+.theme-toggle:hover { border-color: #b9d0fa; color: var(--blue); background: var(--blue-soft); }
+.theme-toggle span { font-size: 14px; line-height: 1; }
+.modal-head .close-button { display:none; }
+.danger-button { color:#bd6b6b; background:#fff0f0; }
+.danger-button:hover { color:#a65757; background:#ffe5e5; }
+.search-box:focus-within { border-color:#9bbbf4; box-shadow:0 0 0 3px #edf4ff; }
+.search-box input {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.search-box input:focus { border:0; box-shadow:none; }
+
+html[data-theme="dark"] { color-scheme: dark; }
+
+/* Application table: compact column controls and status-led scanning. */
+.sort-hint { color:#9aa6ac; font-size:10px; white-space:nowrap; }
+.reset-sort { height:36px; padding:0 10px; border:1px solid #e2e8eb; border-radius:8px; color:#71818a; background:#fff; font-size:11px; }
+.reset-sort:hover:not(:disabled) { color:var(--blue); border-color:#b9d0fa; background:var(--blue-soft); }
+.reset-sort:disabled { cursor:default; opacity:.48; }
+.sort-button { display:inline-flex; align-items:center; gap:5px; max-width:100%; padding:3px 0; border:0; color:inherit; background:transparent; font-size:10px; font-weight:700; text-align:left; }
+.sort-button:hover,.sort-button.is-sorted { color:var(--blue); }
+.sort-marker { display:inline-flex; align-items:flex-start; min-width:12px; color:#bac4c9; font-size:13px; line-height:.8; }
+.sort-button.is-sorted .sort-marker { color:var(--blue); }
+.sort-marker sup { margin-left:1px; font-size:7px; line-height:1; }
+.status-control { display:inline-flex; align-items:center; max-width:100%; border:1px solid currentColor; border-radius:8px; background:color-mix(in srgb, currentColor 11%, transparent); }
+.status-control .inline-status { min-width:104px; border:0; color:currentColor; background:transparent; }
+.status-control .inline-status:focus { border:0; box-shadow:0 0 0 3px currentColor; }
+.table-row { position:relative; }
+.table-row::before { position:absolute; top:14px; bottom:14px; left:0; width:3px; border-radius:0 4px 4px 0; content:""; opacity:.9; }
+.tone-row-slate::before { background:#9caeb9; } .tone-row-blue::before { background:#679ef0; } .tone-row-violet::before { background:#a18ce2; } .tone-row-amber::before { background:#e9b65d; } .tone-row-orange::before { background:#ec9867; } .tone-row-coral::before { background:#e27f8b; } .tone-row-pink::before { background:#cc87b7; } .tone-row-green::before { background:#6abb94; } .tone-row-red::before { background:#db8585; }
+.sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
+
+.activity-copy strong { display:flex; align-items:center; gap:6px; }
+.activity-copy strong em { overflow:hidden; color:#89979e; font-size:10px; font-style:normal; font-weight:500; text-overflow:ellipsis; white-space:nowrap; }
+
+/* Timeline events identify the exact role first, then communicate the action. */
+.timeline-meta > div { display:flex; min-width:0; align-items:center; gap:7px; }
+.timeline-role { overflow:hidden; max-width:170px; padding:3px 6px; border-radius:999px; color:#617985; background:#eef4f6; font-size:9px; font-weight:700; text-overflow:ellipsis; white-space:nowrap; }
+.field-pills { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+.field-pills span { padding:3px 6px; border-radius:5px; color:#71848d; background:#f1f5f6; font-size:9px; }
+.timeline-tone-blue .timeline-dot { border-color:#679ef0; } .timeline-tone-blue .timeline-dot.active { background:#679ef0; box-shadow:0 0 0 4px #edf4ff; }
+.timeline-tone-green .timeline-dot { border-color:#6abb94; } .timeline-tone-red .timeline-dot { border-color:#db8585; }
+
+/* All status surfaces reuse the same text-only, fixed-height badge geometry. */
+.change-pills { min-height:24px; }
+.change-pills > span:not(.status-badge) { display:grid; place-items:center; min-width:12px; height:20px; color:#9aa7ad; line-height:1; }
+
+@media (max-width:700px) {
+  .sort-hint { order:3; flex-basis:100%; }
+  .reset-sort { margin-left:auto; }
+  .table-row::before { top:10px; bottom:10px; }
+}
+
+/*
+  Semantic colour system
+  ----------------------
+  Components below consume roles (canvas, surface, accent, status), never a
+  scheme-specific hex value. Each scheme supplies both appearances, so dark
+  mode is an intentional palette rather than an inverted light palette.
+*/
+:root {
+  /* Fallback before JavaScript applies the active scheme. The complete source
+     of truth for built-in and imported palettes is color-schemes.js. */
+  --canvas:#f7f9fc; --surface:#ffffff; --surface-raised:#ffffff; --surface-subtle:#f0f4fa; --surface-hover:#e5edf8;
+  --ink:#14213d; --muted:#64748b; --muted-strong:#43536a; --muted-soft:#8a99ad; --line:#d7e0ec; --line-subtle:#e8eef5;
+  --blue:#0a6ee8; --blue-hover:#075bc4; --blue-soft:#e8f2ff; --navy:#102a43; --focus-ring:#0a6ee838; --overlay:#102a4352;
+  --shadow:0 18px 50px rgba(20,33,61,.09);
+}
+
+:root {
+  --status-slate-fg:#5b6b7d; --status-slate-soft:#eef2f6; --status-slate-fill:#8090a3;
+  --status-violet-fg:#6847be; --status-violet-soft:#f1edff; --status-violet-fill:#7c5bd1;
+  --status-amber-fg:#9a5a00; --status-amber-soft:#fff5df; --status-amber-fill:#d99513;
+  --status-orange-fg:#b94d08; --status-orange-soft:#fff0e6; --status-orange-fill:#e66f17;
+  --status-coral-fg:#b83c5b; --status-coral-soft:#fff0f3; --status-coral-fill:#d75c78;
+  --status-pink-fg:#aa357e; --status-pink-soft:#fceef8; --status-pink-fill:#c85b9d;
+  --status-green-fg:#167445; --status-green-soft:#e9f8ef; --status-green-fill:#2fa866;
+  --status-red-fg:#bd3b35; --status-red-soft:#fff0ef; --status-red-fill:#dd625a;
+  --priority-low-fg:#0f766e; --priority-low-soft:#e8f7f4; --priority-low-fill:#159a8c;
+  --priority-medium-fg:#9a6700; --priority-medium-soft:#fff6df; --priority-medium-fill:#d89614;
+  --priority-high-fg:#b4235c; --priority-high-soft:#fff0f6; --priority-high-fill:#d13b78;
+}
+html[data-theme="dark"] {
+  --status-slate-fg:#b6c6d8; --status-slate-soft:#26364b; --status-slate-fill:#8fa4bd;
+  --status-violet-fg:#c4b2ff; --status-violet-soft:#39315c; --status-violet-fill:#a58cf2;
+  --status-amber-fg:#f3c96e; --status-amber-soft:#49391d; --status-amber-fill:#e2ae47;
+  --status-orange-fg:#ffb488; --status-orange-soft:#4a2e21; --status-orange-fill:#ee8a4b;
+  --status-coral-fg:#ffafbf; --status-coral-soft:#4c2835; --status-coral-fill:#e9829a;
+  --status-pink-fg:#f4a8da; --status-pink-soft:#4a2942; --status-pink-fill:#df7fc1;
+  --status-green-fg:#7de0a5; --status-green-soft:#1c4331; --status-green-fill:#57c982;
+  --status-red-fg:#ffaaa4; --status-red-soft:#4c292a; --status-red-fill:#ec7771;
+  --priority-low-fg:#72ddd0; --priority-low-soft:#173d3a; --priority-low-fill:#43bdb0;
+  --priority-medium-fg:#f4cd78; --priority-medium-soft:#473817; --priority-medium-fill:#dca83d;
+  --priority-high-fg:#ff9ac5; --priority-high-soft:#4a2036; --priority-high-fill:#eb6198;
+}
+body { color:var(--ink); background:var(--canvas); }
+.sidebar { background:var(--surface-subtle); border-color:var(--line); }
+.brand-mark { color:var(--surface); background:var(--navy); box-shadow:0 5px 14px color-mix(in srgb, var(--navy) 20%, transparent); }
+.nav-item { color:var(--muted); } .nav-item:hover { color:var(--ink); background:var(--surface-hover); } .nav-item.active { color:var(--ink); background:var(--surface); box-shadow:0 4px 16px color-mix(in srgb, var(--ink) 6%, transparent); } .nav-item.active .nav-icon { color:var(--blue); }
+.safety-note { color:var(--muted); border-color:var(--line); background:color-mix(in srgb, var(--surface) 68%, transparent); } .safety-note strong { color:var(--muted-strong); }
+.topbar,.main-area { background:var(--canvas); } .topbar p,.list-intro p,.company-cell > span,.drawer-app-top > div > span,.data-card p,.panel-help { color:var(--muted); }
+.panel,.table-panel,.quick-add,.stat-card,.drawer-app,.modal { background:var(--surface); border-color:var(--line); box-shadow:var(--shadow); }
+.table-head { color:var(--muted-soft); background:var(--surface-subtle); border-color:var(--line); } .table-row,.activity-item { border-color:var(--line-subtle); } .deleted-row { background:var(--surface-subtle); }
+.bar-track { background:var(--surface-hover); } .funnel-row > strong,.cell { color:var(--muted-strong); } .muted { color:var(--muted-soft); }
+.button.primary { background:var(--blue); box-shadow:0 5px 13px color-mix(in srgb, var(--blue) 24%, transparent); } .button.primary:hover { background:var(--blue-hover); }
+.button.secondary { color:var(--blue); background:var(--blue-soft); } .button.ghost,.theme-toggle,.reset-sort,.filter-toggle,.search-box,select { color:var(--muted-strong); border-color:var(--line); background:var(--surface); }
+.theme-toggle:hover,.reset-sort:hover:not(:disabled),.filter-toggle.on { color:var(--blue); border-color:var(--blue); background:var(--blue-soft); }
+.search-box:focus-within,input:focus,textarea:focus,select:focus { border-color:var(--blue); box-shadow:0 0 0 3px var(--focus-ring); }
+input,textarea,#applicationForm select { color:var(--ink); border-color:var(--line); background:var(--surface-raised); }
+.drawer,.modal { background:var(--surface-raised); } .drawer-head,.modal-head { border-color:var(--line); } .close-button { color:var(--muted); background:var(--surface-hover); } .drawer-note { color:var(--muted-strong); background:var(--surface-subtle); }
+.timeline-line { background:var(--line); } .timeline-dot { border-color:var(--muted-soft); background:var(--surface-raised); } .timeline-content p { color:var(--muted); } .timeline-meta strong { color:var(--muted-strong); } .timeline-meta time { color:var(--muted-soft); }
+.tip-card { color:var(--muted-strong); border-color:color-mix(in srgb, var(--blue) 18%, var(--line)); background:color-mix(in srgb, var(--blue) 7%, var(--surface)); } .tip-mark { color:var(--blue); } .tip-decoration { color:color-mix(in srgb, var(--blue) 22%, transparent); }
+.storage-note { color:var(--status-offer-fg); border-color:color-mix(in srgb, var(--status-offer-fill) 24%, var(--line)); background:var(--status-offer-soft); } .storage-note strong { color:var(--status-offer-fg); }
+.stat-card.progress .stat-value { color:var(--blue); } .stat-card.interview .stat-value { color:var(--status-first-interview-fg); } .stat-card.offer .stat-value { color:var(--status-offer-fg); } .stat-card.offer { background:linear-gradient(135deg,var(--surface) 60%,var(--status-offer-soft)); }
+.blue-icon { color:var(--blue); background:var(--blue-soft); } .violet-icon { color:var(--status-written-test-fg); background:var(--status-written-test-soft); }
+
+/* Status palette tokens correspond one-to-one with the visible status names.
+   None of these classes consumes the global accent colour. */
+.tone-submitted { color:var(--status-submitted-fg); background:var(--status-submitted-soft); } .tone-assessment { color:var(--status-assessment-fg); background:var(--status-assessment-soft); } .tone-written-test { color:var(--status-written-test-fg); background:var(--status-written-test-soft); } .tone-first-interview { color:var(--status-first-interview-fg); background:var(--status-first-interview-soft); } .tone-second-interview { color:var(--status-second-interview-fg); background:var(--status-second-interview-soft); } .tone-third-interview { color:var(--status-third-interview-fg); background:var(--status-third-interview-soft); } .tone-hr-interview { color:var(--status-hr-interview-fg); background:var(--status-hr-interview-soft); } .tone-offer { color:var(--status-offer-fg); background:var(--status-offer-soft); } .tone-rejected { color:var(--status-rejected-fg); background:var(--status-rejected-soft); }
+.bar.tone-submitted { background:var(--status-submitted-fill); } .bar.tone-assessment { background:var(--status-assessment-fill); } .bar.tone-written-test { background:var(--status-written-test-fill); } .bar.tone-first-interview { background:var(--status-first-interview-fill); } .bar.tone-second-interview { background:var(--status-second-interview-fill); } .bar.tone-third-interview { background:var(--status-third-interview-fill); } .bar.tone-hr-interview { background:var(--status-hr-interview-fill); } .bar.tone-offer { background:var(--status-offer-fill); } .bar.tone-rejected { background:var(--status-rejected-fill); }
+.activity-dot { background:var(--status-submitted-fill); } .activity-dot.activity { background:var(--blue); } .activity-dot.submitted { background:var(--status-submitted-fill); } .activity-dot.assessment { background:var(--status-assessment-fill); } .activity-dot.written-test { background:var(--status-written-test-fill); } .activity-dot.first-interview { background:var(--status-first-interview-fill); } .activity-dot.second-interview { background:var(--status-second-interview-fill); } .activity-dot.third-interview { background:var(--status-third-interview-fill); } .activity-dot.hr-interview { background:var(--status-hr-interview-fill); } .activity-dot.offer { background:var(--status-offer-fill); } .activity-dot.rejected { background:var(--status-rejected-fill); }
+.tone-row-submitted::before { background:var(--status-submitted-fill); } .tone-row-assessment::before { background:var(--status-assessment-fill); } .tone-row-written-test::before { background:var(--status-written-test-fill); } .tone-row-first-interview::before { background:var(--status-first-interview-fill); } .tone-row-second-interview::before { background:var(--status-second-interview-fill); } .tone-row-third-interview::before { background:var(--status-third-interview-fill); } .tone-row-hr-interview::before { background:var(--status-hr-interview-fill); } .tone-row-offer::before { background:var(--status-offer-fill); } .tone-row-rejected::before { background:var(--status-rejected-fill); }
+.timeline-tone-activity .timeline-dot { border-color:var(--blue); } .timeline-tone-activity .timeline-dot.active { background:var(--blue); box-shadow:0 0 0 4px var(--blue-soft); } .timeline-tone-submitted .timeline-dot { border-color:var(--status-submitted-fill); } .timeline-tone-assessment .timeline-dot { border-color:var(--status-assessment-fill); } .timeline-tone-written-test .timeline-dot { border-color:var(--status-written-test-fill); } .timeline-tone-first-interview .timeline-dot { border-color:var(--status-first-interview-fill); } .timeline-tone-second-interview .timeline-dot { border-color:var(--status-second-interview-fill); } .timeline-tone-third-interview .timeline-dot { border-color:var(--status-third-interview-fill); } .timeline-tone-hr-interview .timeline-dot { border-color:var(--status-hr-interview-fill); } .timeline-tone-offer .timeline-dot { border-color:var(--status-offer-fill); } .timeline-tone-rejected .timeline-dot { border-color:var(--status-rejected-fill); }
+
+.scheme-picker { display:inline-flex; align-items:center; height:36px; gap:7px; padding:0 8px 0 10px; border:1px solid var(--line); border-radius:9px; background:var(--surface); color:var(--muted-strong); }
+.scheme-picker:focus-within { border-color:var(--blue); box-shadow:0 0 0 3px var(--focus-ring); }
+.top-actions .scheme-picker select { min-width:0; height:32px; margin:0; padding:0 18px 0 0; border:0; border-radius:0; outline:0; background:transparent; box-shadow:none; font-weight:700; }
+.top-actions .scheme-picker select:focus { border:0; box-shadow:none; }
+.scheme-swatch { width:10px; height:10px; border-radius:50%; background:var(--blue); box-shadow:0 0 0 3px var(--blue-soft); }
+.external-link { display:inline-grid; flex:0 0 auto; place-items:center; color:var(--muted-soft); font-size:14px; font-weight:700; line-height:1; text-decoration:none; }
+.icon-button.external-link:hover { color:var(--blue); background:var(--blue-soft); transform:none; }
+.external-link.disabled { color:var(--muted-soft); background:transparent; cursor:not-allowed; opacity:.58; }
+.drawer-app-actions .external-link { margin-right:auto; }
+#applicationForm small { display:block; margin-top:6px; color:var(--muted); font-size:10px; line-height:1.45; }
+.appearance-panel { display:flex; align-items:center; justify-content:space-between; gap:22px; margin-top:17px; padding:22px 23px; }
+.appearance-panel h3 { margin:6px 0 0; font-size:14px; }
+.appearance-panel p { max-width:520px; margin:8px 0 0; color:var(--muted); font-size:11px; line-height:1.6; }
+.appearance-actions { display:flex; flex-shrink:0; gap:8px; }
+
+@media (max-width:700px) {
+  .top-actions { flex-wrap:wrap; }
+  .scheme-picker { flex:1 1 122px; }
+  .theme-toggle { flex:1 1 76px; justify-content:center; }
+  .appearance-panel { align-items:flex-start; flex-direction:column; }
+}
+
+/* The company drawer is deliberately read-only: editing happens from the
+   corresponding row in the application list. */
+.drawer-readonly-hint { margin:0 0 12px; color:var(--muted); font-size:10px; line-height:1.5; }
+.drawer-facts { display:grid; grid-template-columns:110px minmax(0, 1fr); gap:8px 12px; margin:13px 0 0; padding:11px 0; border-top:1px solid var(--line-subtle); border-bottom:1px solid var(--line-subtle); }
+.drawer-facts > div { display:contents; }
+.drawer-facts dt,.drawer-note-block > span { color:var(--muted-soft); font-size:10px; }
+.drawer-facts dd { min-width:0; margin:0; color:var(--muted-strong); font-size:10px; line-height:1.45; }
+.drawer-facts .url-value { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.drawer-note-block { margin-top:12px; }
+.drawer-note-block > span { display:block; margin-bottom:6px; }
+.drawer-note { margin:0; }
+.drawer-note.is-empty { color:var(--muted-soft); background:var(--surface-subtle); }
+.modal-foot-spacer { flex:1; }
+
+@media (max-width:700px) {
+  .drawer-facts { grid-template-columns:88px minmax(0, 1fr); }
+}
+
+/* Keep wheel and touch scrolling inside a long company timeline. */
+body.drawer-open,
+body.modal-open { overflow:hidden; }
+.drawer { display:flex; flex-direction:column; overflow:hidden; }
+.drawer-body { flex:1; min-height:0; height:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; }
+.timeline { max-height:min(52vh, 520px); overflow-y:auto; padding-right:7px; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; scrollbar-width:thin; }
+
+/* Dense application columns: keep all new metadata visible without widening
+   the desktop table, and collapse cleanly into a compact record on narrow screens. */
+.table-head,.table-row { grid-template-columns:minmax(140px,1.6fr) minmax(92px,1.15fr) minmax(58px,.6fr) minmax(80px,.82fr) minmax(66px,.6fr) minmax(80px,.82fr) minmax(58px,.6fr) minmax(96px,1fr); gap:9px; }
+.table-head { padding-left:14px; padding-right:14px; }
+.table-row { padding-left:14px; padding-right:14px; }
+.company-cell .company-name { max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.company-cell > span,.channel-cell,.base-cell { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.table-row .row-actions { gap:1px; }
+.table-row .row-actions .icon-button { width:26px; height:26px; }
+.priority-badge { display:inline-grid; min-width:28px; min-height:20px; place-items:center; padding:0 6px; border-radius:5px; color:var(--muted-strong); background:var(--surface-hover); font-size:10px; font-weight:700; }
+/* Priority is intentionally independent from application status: it communicates
+   attention order, while status colours communicate recruiting progress. */
+.priority-高 { color:var(--priority-high-fg); background:var(--priority-high-soft); }
+.priority-中 { color:var(--priority-medium-fg); background:var(--priority-medium-soft); }
+.priority-低 { color:var(--priority-low-fg); background:var(--priority-low-soft); }
+.channel-cell { color:var(--muted-strong); font-size:10px; }
+
+/* Fine-grained surfaces inherit the active scheme instead of retaining the
+   original blue-grey literals. This also makes imported schemes complete. */
+.brand small,.workspace-label,.section-kicker,.eyebrow,.nav-item em,.sidebar-footer,
+.date-chip,.quick-add b,.stat-desc,.activity-item time,.section-title span,
+.empty-inline,.sort-hint,.sort-marker { color:var(--muted-soft); }
+.nav-icon,.stat-icon,.stat-title,label,.activity-copy strong em { color:var(--muted); }
+.safety-note > span { color:var(--status-offer-fill); }
+.quick-add { border-color:var(--line); background:var(--surface); box-shadow:0 7px 20px color-mix(in srgb,var(--ink) 5%,transparent); }
+.panel,.table-panel,.quick-add,.stat-card,.drawer-app,.modal { box-shadow:0 18px 50px color-mix(in srgb,var(--ink) 9%,transparent); }
+.drawer-backdrop,.modal-backdrop { background:var(--overlay); }
+.drawer { background:var(--surface-raised); box-shadow:-15px 0 50px color-mix(in srgb,var(--ink) 18%,transparent); }
+.company-avatar { color:var(--blue); background:var(--blue-soft); }
+.drawer-title a,.drawer-app-actions .note-button { color:var(--blue); }
+.drawer-app { border-color:var(--line-subtle); background:var(--surface); }
+.drawer-note { color:var(--muted-strong); background:var(--surface-subtle); }
+.timeline-line { background:var(--line); }
+.timeline-dot { border-color:var(--muted-soft); background:var(--surface-raised); }
+.timeline-dot.active { border-color:var(--blue); background:var(--blue); box-shadow:0 0 0 4px var(--blue-soft); }
+details { color:var(--muted); }
+details pre { color:var(--muted-strong); background:var(--surface-subtle); }
+.danger-button { color:var(--status-rejected-fg); background:var(--status-rejected-soft); }
+.danger-button:hover { color:var(--status-rejected-fg); background:color-mix(in srgb,var(--status-rejected-soft) 72%,var(--surface)); }
+.danger-icon:hover { color:var(--status-rejected-fg); background:var(--status-rejected-soft); }
+.green-icon:hover { color:var(--status-offer-fg); background:var(--status-offer-soft); }
+.deleted-label { color:var(--status-rejected-fg); background:var(--status-rejected-soft); }
+.toast { background:var(--navy); box-shadow:0 8px 30px color-mix(in srgb,var(--ink) 18%,transparent); }
+.toast.error { background:var(--status-rejected-fill); }
+.button.primary { color:var(--surface); }
+.button.ghost,.theme-toggle,.reset-sort,.filter-toggle,.search-box,select { color:var(--muted-strong); border-color:var(--line); background:var(--surface); }
+.reset-sort:hover:not(:disabled),.theme-toggle:hover,.filter-toggle.on { color:var(--blue); border-color:var(--blue); background:var(--blue-soft); }
+.text-button,.advanced-form summary,.empty-state strong { color:var(--muted-strong); }
+.activity-copy span,.timeline-content p,.data-card p,.company-cell > span,.panel-help { color:var(--muted); }
+.icon-button,.empty-state,.empty-icon,.timeline-meta time,.change-pills > span:not(.status-badge) { color:var(--muted-soft); }
+.empty-icon { border-color:var(--line); }
+.table-head { color:var(--muted-soft); background:var(--surface-subtle); }
+.table-row,.activity-item,.advanced-form,.modal-foot { border-color:var(--line-subtle); }
+.inline-status { color:var(--muted-strong); background:var(--surface-subtle); }
+.inline-status:hover,.inline-status:focus { border-color:var(--blue); }
+.input,input,textarea,#applicationForm select { color:var(--ink); border-color:var(--line); background:var(--surface-raised); }
+input:disabled { color:var(--muted); background:var(--surface-hover); }
+.timeline-role { color:var(--muted-strong); background:var(--surface-subtle); }
+.field-pills span { color:var(--muted-strong); background:var(--surface-hover); }
+.danger-text { color:var(--status-rejected-fg); }
+.storage-note > span { color:var(--status-offer-fg); background:color-mix(in srgb,var(--status-offer-fill) 16%,var(--surface)); }
+.storage-note p { color:var(--status-offer-fg); }
+.timeline-tone-submitted .timeline-dot.active { background:var(--status-submitted-fill); box-shadow:0 0 0 4px var(--status-submitted-soft); }
+.timeline-tone-assessment .timeline-dot.active { background:var(--status-assessment-fill); box-shadow:0 0 0 4px var(--status-assessment-soft); }
+.timeline-tone-written-test .timeline-dot.active { background:var(--status-written-test-fill); box-shadow:0 0 0 4px var(--status-written-test-soft); }
+.timeline-tone-first-interview .timeline-dot.active { background:var(--status-first-interview-fill); box-shadow:0 0 0 4px var(--status-first-interview-soft); }
+.timeline-tone-second-interview .timeline-dot.active { background:var(--status-second-interview-fill); box-shadow:0 0 0 4px var(--status-second-interview-soft); }
+.timeline-tone-third-interview .timeline-dot.active { background:var(--status-third-interview-fill); box-shadow:0 0 0 4px var(--status-third-interview-soft); }
+.timeline-tone-hr-interview .timeline-dot.active { background:var(--status-hr-interview-fill); box-shadow:0 0 0 4px var(--status-hr-interview-soft); }
+.timeline-tone-offer .timeline-dot.active { background:var(--status-offer-fill); box-shadow:0 0 0 4px var(--status-offer-soft); }
+.timeline-tone-rejected .timeline-dot.active { background:var(--status-rejected-fill); box-shadow:0 0 0 4px var(--status-rejected-soft); }
+
+@media (max-width:920px) {
+  .table-head { display:none; }
+  .table-row { grid-template-columns:minmax(0,1fr) auto; gap:8px 12px; padding:14px; }
+  .table-row .company-cell { grid-column:1 / -1; grid-row:1; }
+  .table-row .base-cell { grid-column:1; grid-row:2; }
+  .table-row .channel-cell { grid-column:2; grid-row:2; text-align:right; }
+  .table-row .date-cell { grid-column:1; grid-row:3; }
+  .table-row .priority-cell { grid-column:2; grid-row:3; text-align:right; }
+  .table-row .status-cell { grid-column:1; grid-row:4; }
+  .table-row .updated-cell { grid-column:1; grid-row:5; }
+  .table-row .row-actions { grid-column:2; grid-row:5; }
+}
+</style><script>const Schema = (() => {
+const SCHEMA_VERSION = '1.0';
+const APP_VERSION = '1.0';
+
+const STATUSES = ['已投递', '测评', '笔试', '一面', '二面', '三面', 'HR 面', 'Offer', '拒绝'];
+const PRIORITIES = ['低', '中', '高'];
+const CHANNELS = ['官网', '内推', 'boss直聘', '其他'];
+const EVENT_TYPES = ['created', 'field_changed', 'soft_deleted', 'restored'];
+
+const EDITABLE_FIELDS = ['base', 'website', 'applicationDate', 'status', 'channel', 'priority', 'note'];
+
+const FIELD_SPECS = {
+  base: { type: 'string', default: '' },
+  website: { type: 'string', default: '' },
+  applicationDate: { type: 'date' },
+  status: { type: 'enum', values: STATUSES, default: '已投递' },
+  channel: { type: 'enum', values: CHANNELS, default: '官网' },
+  priority: { type: 'enum', values: PRIORITIES, default: '中' },
+  note: { type: 'string', default: '' }
+};
+
+const APPLICATION_DEFAULTS = {
+  base: '', website: '', status: '已投递', channel: '官网', priority: '中', note: '', deletedAt: null
+};
+
+function normalizeIdentityPart(value) {
+  return String(value ?? '').trim().replace(/\s+/g, ' ').normalize('NFKC').toLocaleLowerCase();
+}
+
+function applicationBusinessKey(application) {
+  return [normalizeIdentityPart(application?.company), normalizeIdentityPart(application?.position)].join('\u0000');
+}
+
+return { SCHEMA_VERSION, APP_VERSION, STATUSES, PRIORITIES, CHANNELS, EVENT_TYPES, EDITABLE_FIELDS, FIELD_SPECS, APPLICATION_DEFAULTS, normalizeIdentityPart, applicationBusinessKey };
+})();
+const Core = (() => {
+const { APPLICATION_DEFAULTS, APP_VERSION, CHANNELS, EDITABLE_FIELDS, EVENT_TYPES, FIELD_SPECS, PRIORITIES, SCHEMA_VERSION, STATUSES, applicationBusinessKey } = Schema;
+
+const STATUS_META = {
+  '已投递': { tone: 'submitted' }, '测评': { tone: 'assessment' }, '笔试': { tone: 'written-test' },
+  '一面': { tone: 'first-interview' }, '二面': { tone: 'second-interview' }, '三面': { tone: 'third-interview' },
+  'HR 面': { tone: 'hr-interview' }, 'Offer': { tone: 'offer' }, '拒绝': { tone: 'rejected' }
+};
+
+const now = () => new Date().toISOString();
+function clone(value) { return JSON.parse(JSON.stringify(value)); }
+function id(prefix = 'id') {
+  const uuid = globalThis.crypto?.randomUUID?.() || `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+  return `${prefix}_${uuid}`;
+}
+function emptyState() { return { schemaVersion: SCHEMA_VERSION, applications: [], settings: { theme: 'light' } }; }
+
+function validDay(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00`);
+  return !Number.isNaN(date.getTime()) && [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-') === value;
+}
+function cleanString(value) { return String(value ?? '').trim(); }
+function normalizeEditableValue(field, value, fallback) {
+  const spec = FIELD_SPECS[field];
+  const normalized = cleanString(value === undefined ? fallback : value);
+  if (spec.type === 'enum') {
+    const result = normalized || spec.default;
+    if (!spec.values.includes(result)) throw new Error(`${field === 'status' ? '投递状态' : field === 'channel' ? '投递渠道' : '优先级'}无效：${result}`);
+    return result;
+  }
+  if (spec.type === 'date') {
+    if (!validDay(normalized)) throw new Error('投递日期无效');
+    return normalized;
+  }
+  return normalized;
+}
+function createEvent(type, operationId, timestamp, field = null, from = null, to = null) {
+  return { id: id('evt'), operationId, type, field, timestamp, from: clone(from), to: clone(to) };
+}
+function assertImmutablePatch(app, patch) {
+  for (const field of ['id', 'company', 'position', 'createdAt']) {
+    if (patch[field] !== undefined && cleanString(patch[field]) !== app[field]) throw new Error('公司名称和岗位名称创建后不能修改');
+  }
+}
+
+function createApplication(state, input, at = now()) {
+  const company = cleanString(input.company);
+  const position = cleanString(input.position);
+  if (!company) throw new Error('公司名称不能为空');
+  if (!position) throw new Error('岗位名称不能为空');
+  const candidate = { company, position };
+  if (state.applications.some(app => applicationBusinessKey(app) === applicationBusinessKey(candidate))) throw new Error('该公司已存在同名岗位投递；如需继续使用，请恢复原记录');
+  const applicationDate = input.applicationDate === undefined || cleanString(input.applicationDate) === '' ? at.slice(0, 10) : input.applicationDate;
+  const app = {
+    id: id('app'), company, position,
+    base: normalizeEditableValue('base', input.base, APPLICATION_DEFAULTS.base),
+    website: normalizeEditableValue('website', input.website, APPLICATION_DEFAULTS.website),
+    applicationDate: normalizeEditableValue('applicationDate', applicationDate),
+    status: normalizeEditableValue('status', input.status, APPLICATION_DEFAULTS.status),
+    channel: normalizeEditableValue('channel', input.channel, APPLICATION_DEFAULTS.channel),
+    priority: normalizeEditableValue('priority', input.priority, APPLICATION_DEFAULTS.priority),
+    note: normalizeEditableValue('note', input.note, APPLICATION_DEFAULTS.note),
+    createdAt: at, updatedAt: at, deletedAt: null, history: []
+  };
+  if (state.applications.some(item => item.id === app.id)) throw new Error('投递 ID 已存在');
+  app.history.push(createEvent('created', id('op'), at));
+  state.applications.push(app);
+  return app;
+}
+
+function updateApplication(state, applicationId, patch, at = now()) {
+  const app = state.applications.find(item => item.id === applicationId);
+  if (!app) throw new Error('投递不存在');
+  if (app.deletedAt) throw new Error('投递已删除，请先恢复后再编辑');
+  assertImmutablePatch(app, patch);
+  const changes = EDITABLE_FIELDS.flatMap(field => {
+    if (patch[field] === undefined) return [];
+    const next = normalizeEditableValue(field, patch[field], app[field]);
+    return next === app[field] ? [] : [{ field, from: app[field], to: next }];
+  });
+  if (!changes.length) return app;
+  const operationId = id('op');
+  changes.forEach(change => {
+    app[change.field] = change.to;
+    app.history.push(createEvent('field_changed', operationId, at, change.field, change.from, change.to));
+  });
+  app.updatedAt = at;
+  return app;
+}
+
+function softDeleteApplication(state, applicationId, at = now()) {
+  const app = state.applications.find(item => item.id === applicationId);
+  if (!app || app.deletedAt) return app;
+  app.deletedAt = at; app.updatedAt = at;
+  app.history.push(createEvent('soft_deleted', id('op'), at));
+  return app;
+}
+
+function restoreApplication(state, applicationId, at = now()) {
+  const app = state.applications.find(item => item.id === applicationId);
+  if (!app) throw new Error('投递不存在');
+  if (!app.deletedAt) return app;
+  app.deletedAt = null; app.updatedAt = at;
+  app.history.push(createEvent('restored', id('op'), at));
+  return app;
+}
+
+function purgeApplication(state, applicationId) {
+  const app = state.applications.find(item => item.id === applicationId);
+  if (!app) return false;
+  if (!app.deletedAt) throw new Error('请先将投递移入已删除，再彻底删除');
+  state.applications = state.applications.filter(item => item.id !== applicationId);
+  return true;
+}
+
+const visibleApplications = state => state.applications.filter(app => !app.deletedAt);
+const applicationEvents = (state, applicationId) => state.applications.find(app => app.id === applicationId)?.history.slice().sort((a, b) => b.timestamp.localeCompare(a.timestamp)) || [];
+const SORT_KEYS = ['company', 'base', 'channel', 'applicationDate', 'status', 'updatedAt', 'priority'];
+const collator = new Intl.Collator('zh-CN', { numeric: true, sensitivity: 'base' });
+function sortValue(app, key) {
+  if (key === 'company') return `${app.company} ${app.position}`;
+  if (key === 'status') return String(STATUSES.indexOf(app.status)).padStart(2, '0');
+  if (key === 'priority') return String(PRIORITIES.indexOf(app.priority)).padStart(2, '0');
+  return String(app[key] || '');
+}
+function compareSortValues(left, right, key) {
+  // ISO day strings and ISO timestamps have a chronological lexical order.
+  // Keep this branch explicit: these columns are dates, not display strings.
+  if (key === 'applicationDate' || key === 'updatedAt') return left.localeCompare(right);
+  return collator.compare(left, right);
+}
+function sortApplications(applications, rules = []) {
+  const seen = new Set();
+  const validRules = Array.isArray(rules) ? rules.filter(rule => {
+    if (!rule || !SORT_KEYS.includes(rule.key) || !['asc', 'desc'].includes(rule.direction) || seen.has(rule.key)) return false;
+    seen.add(rule.key);
+    return true;
+  }) : [];
+  return applications.map((application, index) => ({ application, index })).sort((left, right) => {
+    for (const rule of validRules) {
+      const result = compareSortValues(sortValue(left.application, rule.key), sortValue(right.application, rule.key), rule.key);
+      if (result) return rule.direction === 'asc' ? result : -result;
+    }
+    return left.index - right.index;
+  }).map(item => item.application);
+}
+// The order in this array is the user's selected priority: selecting another
+// column appends it, and removing a column naturally shifts later rules up.
+function nextSortRules(rules, key) {
+  if (!SORT_KEYS.includes(key)) return Array.isArray(rules) ? rules.slice() : [];
+  const normalized = [];
+  const seen = new Set();
+  for (const rule of Array.isArray(rules) ? rules : []) {
+    if (!rule || !SORT_KEYS.includes(rule.key) || !['asc', 'desc'].includes(rule.direction) || seen.has(rule.key)) continue;
+    seen.add(rule.key);
+    normalized.push({ key: rule.key, direction: rule.direction });
+  }
+  const index = normalized.findIndex(rule => rule.key === key);
+  if (index === -1) return [...normalized, { key, direction: 'asc' }];
+  if (normalized[index].direction === 'asc') return normalized.map((rule, ruleIndex) => ruleIndex === index ? { ...rule, direction: 'desc' } : rule);
+  return normalized.filter((_, ruleIndex) => ruleIndex !== index);
+}
+function formatDateTime(value) { if (!value) return '—'; const date = new Date(value); return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat('zh-CN', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(date); }
+function formatDate(value) { if (!value) return '—'; const date = new Date(`${value}T00:00:00`); return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat('zh-CN', { month: 'short', day: 'numeric' }).format(date); }
+
+return { APPLICATION_DEFAULTS, CHANNELS, EDITABLE_FIELDS, EVENT_TYPES, FIELD_SPECS, PRIORITIES, SCHEMA_VERSION, STATUSES, applicationBusinessKey, APP_VERSION, STATUS_META, clone, id, emptyState, createApplication, updateApplication, softDeleteApplication, restoreApplication, purgeApplication, visibleApplications, applicationEvents, SORT_KEYS, sortApplications, nextSortRules, formatDateTime, formatDate };
+})();
+const Validation = (() => {
+const { EDITABLE_FIELDS, EVENT_TYPES, FIELD_SPECS, SCHEMA_VERSION, applicationBusinessKey } = Schema;
+
+function isObject(value) { return value !== null && typeof value === 'object' && !Array.isArray(value); }
+function hasOwn(object, key) { return Object.prototype.hasOwnProperty.call(object, key); }
+function isValidTimestamp(value) { return typeof value === 'string' && value.trim() !== '' && !Number.isNaN(new Date(value).getTime()); }
+function isValidDay(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00`);
+  return !Number.isNaN(date.getTime()) && [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-') === value;
+}
+function assertEnum(field, value, prefix = '') {
+  const spec = FIELD_SPECS[field];
+  if (spec?.type === 'enum' && !spec.values.includes(value)) throw new Error(`${prefix}${field} 无效：${value}`);
+}
+
+function validateHistoryEvent(event, applicationIndex = '') {
+  const prefix = applicationIndex === '' ? '历史事件' : `第 ${applicationIndex + 1} 条投递的历史事件`;
+  if (!isObject(event)) throw new Error(`${prefix}必须是对象`);
+  if (typeof event.id !== 'string' || !event.id.trim()) throw new Error(`${prefix}缺少 id`);
+  if (typeof event.operationId !== 'string' || !event.operationId.trim()) throw new Error(`${prefix}缺少 operationId`);
+  if (!EVENT_TYPES.includes(event.type)) throw new Error(`${prefix}类型无效：${event.type}`);
+  if (!isValidTimestamp(event.timestamp)) throw new Error(`${prefix}时间无效`);
+  if (!hasOwn(event, 'field') || !hasOwn(event, 'from') || !hasOwn(event, 'to')) throw new Error(`${prefix}缺少 field / from / to`);
+  if (event.type === 'field_changed') {
+    if (!EDITABLE_FIELDS.includes(event.field)) throw new Error(`历史事件 field 无效：${event.field}`);
+    if (typeof event.from !== 'string' || typeof event.to !== 'string') throw new Error('历史事件 field_changed 的 from / to 必须是字符串');
+    if (event.from === event.to) throw new Error('历史事件的 from 与 to 不能相同');
+    assertEnum(event.field, event.from, '历史事件 ');
+    assertEnum(event.field, event.to, '历史事件 ');
+  } else if (event.field !== null || event.from !== null || event.to !== null) throw new Error(`${prefix}的 ${event.type} 事件不能包含字段变更`);
+}
+
+function validateApplication(application, index = '') {
+  const prefix = index === '' ? '投递' : `第 ${index + 1} 条投递`;
+  if (!isObject(application)) throw new Error(`${prefix}必须是对象`);
+  const fields = ['id', 'company', 'position', 'base', 'website', 'applicationDate', 'status', 'channel', 'priority', 'note', 'createdAt', 'updatedAt'];
+  for (const field of fields) if (typeof application[field] !== 'string') throw new Error(`${prefix}缺少 ${field}`);
+  if (!application.id.trim() || !application.company.trim() || !application.position.trim()) throw new Error(`${prefix}缺少 id、company 或 position`);
+  if (!isValidDay(application.applicationDate)) throw new Error(`${prefix}的 applicationDate 无效`);
+  if (!isValidTimestamp(application.createdAt) || !isValidTimestamp(application.updatedAt)) throw new Error(`${prefix}的创建或更新时间无效`);
+  if (application.deletedAt !== null && !isValidTimestamp(application.deletedAt)) throw new Error(`${prefix}的 deletedAt 无效`);
+  if (!Array.isArray(application.history)) throw new Error(`${prefix}缺少 history`);
+  for (const field of EDITABLE_FIELDS) assertEnum(field, application[field], `${prefix} `);
+  const eventIds = new Set();
+  application.history.forEach(event => { validateHistoryEvent(event, index); if (eventIds.has(event.id)) throw new Error(`${prefix}存在重复历史事件 ID`); eventIds.add(event.id); });
+}
+
+function validateState(candidate) {
+  if (!isObject(candidate)) throw new Error('状态必须是 JSON 对象');
+  if (candidate.schemaVersion !== SCHEMA_VERSION) throw new Error('状态 Schema 版本不兼容');
+  if (!Array.isArray(candidate.applications)) throw new Error('状态缺少 applications');
+  if (!isObject(candidate.settings)) throw new Error('状态缺少 settings');
+  if (Object.keys(candidate).some(key => !['schemaVersion', 'applications', 'settings'].includes(key))) throw new Error('状态包含不支持的字段');
+  if (!['light', 'dark'].includes(candidate.settings.theme)) throw new Error('主题设置无效');
+  const ids = new Set(), keys = new Set(), historyIds = new Set();
+  candidate.applications.forEach((application, index) => {
+    validateApplication(application, index);
+    if (ids.has(application.id)) throw new Error('存在重复的投递 ID');
+    ids.add(application.id);
+    const key = applicationBusinessKey(application);
+    if (keys.has(key)) throw new Error(`存在重复的公司 / 岗位：${application.company} / ${application.position}`);
+    keys.add(key);
+    application.history.forEach(event => { if (historyIds.has(event.id)) throw new Error('存在重复的历史事件 ID'); historyIds.add(event.id); });
+  });
+  return true;
+}
+
+function validateBackupEnvelope(candidate) {
+  if (!isObject(candidate)) throw new Error('备份必须是 JSON 对象');
+  if (candidate.type !== 'autumn-desk-backup') throw new Error('备份文件类型不正确');
+  if (candidate.schemaVersion !== SCHEMA_VERSION) throw new Error('备份 Schema 版本不兼容');
+  if (typeof candidate.appVersion !== 'string' || !candidate.appVersion.trim()) throw new Error('备份缺少 appVersion');
+  if (!isValidTimestamp(candidate.exportedAt)) throw new Error('备份导出时间无效');
+  if (!isObject(candidate.data)) throw new Error('备份缺少 data');
+  if (Object.keys(candidate.data).some(key => !['applications', 'settings'].includes(key))) throw new Error('备份 data 包含不支持的字段');
+  validateState({ ...candidate.data, schemaVersion: candidate.schemaVersion });
+  return true;
+}
+
+return { validateHistoryEvent, validateApplication, validateState, validateBackupEnvelope };
+})();
+const Storage = (() => {
+const { emptyState } = Core;
+
+const STATE_STORAGE_KEY = 'autumn-recruit-assistant.state.v1.0';
+
+function readJson(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (error) {
+    console.warn(`本地数据读取失败：${key}`, error);
+    return fallback;
+  }
+}
+
+function loadState() { return readJson(STATE_STORAGE_KEY, emptyState()); }
+function saveState(state) { localStorage.setItem(STATE_STORAGE_KEY, JSON.stringify(state)); }
+
+return { STATE_STORAGE_KEY, loadState, saveState };
+})();
+const Backup = (() => {
+const { APP_VERSION, SCHEMA_VERSION } = Schema;
+const { clone } = Core;
+const { validateBackupEnvelope, validateState } = Validation;
+
+const now = () => new Date().toISOString();
+
+function buildBackup(state, exportedAt = now()) {
+  validateState(state);
+  return {
+    type: 'autumn-desk-backup', schemaVersion: SCHEMA_VERSION, appVersion: APP_VERSION, exportedAt,
+    data: { applications: clone(state.applications), settings: clone(state.settings) }
+  };
+}
+
+function parseBackup(candidate) {
+  validateBackupEnvelope(candidate);
+  return clone({ schemaVersion: candidate.schemaVersion, applications: candidate.data.applications, settings: candidate.data.settings });
+}
+
+return { buildBackup, parseBackup };
+})();
+const { validateState } = Validation;
+const ColorSchemes = (() => {
+const COLOR_SCHEME_FILE_TYPE = 'autumn-desk-color-schemes';
+const COLOR_SCHEME_FILE_VERSION = '1.0';
+
+const lightPaletteSeed = {
+  canvas: '#f5f5f7', surface: '#ffffff', surfaceRaised: '#ffffff', surfaceSubtle: '#f2f2f7', surfaceHover: '#e8e8ed',
+  ink: '#1d1d1f', muted: '#6e6e73', mutedStrong: '#515154', mutedSoft: '#86868b', line: '#d2d2d7', lineSubtle: '#e5e5ea',
+  blue: '#007aff', blueHover: '#0066cc', blueSoft: '#eaf3ff', navy: '#1d1d1f', focusRing: '#007aff38', overlay: '#0000004d',
+  statusAssessmentFg: '#007780', statusAssessmentSoft: '#e5f8f8', statusAssessmentFill: '#149ca3',
+  statusSubmittedFg: '#6e6e73', statusSubmittedSoft: '#f2f2f7', statusSubmittedFill: '#8e8e93', statusWrittenTestFg: '#5856d6', statusWrittenTestSoft: '#f0efff', statusWrittenTestFill: '#5856d6',
+  statusFirstInterviewFg: '#b76b00', statusFirstInterviewSoft: '#fff5df', statusFirstInterviewFill: '#f0a20a', statusSecondInterviewFg: '#c85c00', statusSecondInterviewSoft: '#fff0e5', statusSecondInterviewFill: '#ff7a00',
+  statusThirdInterviewFg: '#d65356', statusThirdInterviewSoft: '#fff0f0', statusThirdInterviewFill: '#ff6961', statusHrInterviewFg: '#af52de', statusHrInterviewSoft: '#fbefff', statusHrInterviewFill: '#af52de',
+  statusOfferFg: '#23834b', statusOfferSoft: '#eaf8ef', statusOfferFill: '#34c759', statusRejectedFg: '#d92d20', statusRejectedSoft: '#fff0ef', statusRejectedFill: '#ff3b30',
+  priorityLowFg: '#0f766e', priorityLowSoft: '#e8f7f4', priorityLowFill: '#159a8c', priorityMediumFg: '#9a6700', priorityMediumSoft: '#fff6df', priorityMediumFill: '#d89614', priorityHighFg: '#b4235c', priorityHighSoft: '#fff0f6', priorityHighFill: '#d13b78'
+};
+
+const darkPaletteSeed = {
+  canvas: '#000000', surface: '#1c1c1e', surfaceRaised: '#2c2c2e', surfaceSubtle: '#151517', surfaceHover: '#38383a',
+  ink: '#f5f5f7', muted: '#aeaeb2', mutedStrong: '#d1d1d6', mutedSoft: '#8e8e93', line: '#38383a', lineSubtle: '#2c2c2e',
+  blue: '#0a84ff', blueHover: '#409cff', blueSoft: '#0a84ff24', navy: '#f5f5f7', focusRing: '#0a84ff57', overlay: '#0000008c',
+  statusAssessmentFg: '#70dfe4', statusAssessmentSoft: '#163e44', statusAssessmentFill: '#49bbc2',
+  statusSubmittedFg: '#aeaeb2', statusSubmittedSoft: '#2c2c2e', statusSubmittedFill: '#8e8e93', statusWrittenTestFg: '#a8a6ff', statusWrittenTestSoft: '#37365d', statusWrittenTestFill: '#8b8aff',
+  statusFirstInterviewFg: '#ffd16a', statusFirstInterviewSoft: '#4a3917', statusFirstInterviewFill: '#ffb340', statusSecondInterviewFg: '#ffb17a', statusSecondInterviewSoft: '#4b301f', statusSecondInterviewFill: '#ff8b4b',
+  statusThirdInterviewFg: '#ff9a9a', statusThirdInterviewSoft: '#4a282d', statusThirdInterviewFill: '#ff7a7a', statusHrInterviewFg: '#f0a7de', statusHrInterviewSoft: '#48263f', statusHrInterviewFill: '#e889cd',
+  statusOfferFg: '#72dc9a', statusOfferSoft: '#1d422f', statusOfferFill: '#5ad27f', statusRejectedFg: '#ff9c97', statusRejectedSoft: '#48262a', statusRejectedFill: '#ff6961',
+  priorityLowFg: '#72ddd0', priorityLowSoft: '#173d3a', priorityLowFill: '#43bdb0', priorityMediumFg: '#f4cd78', priorityMediumSoft: '#473817', priorityMediumFill: '#dca83d', priorityHighFg: '#ff9ac5', priorityHighSoft: '#4a2036', priorityHighFill: '#eb6198'
+};
+
+const lightBase = { ...lightPaletteSeed };
+const darkBase = { ...darkPaletteSeed };
+
+function scheme(id, label, light = {}, dark = {}) {
+  return { id, label, light: { ...lightBase, ...light }, dark: { ...darkBase, ...dark } };
+}
+
+const BUILT_IN_COLOR_SCHEMES = [
+  scheme('apple', '苹果蓝', {
+    canvas: '#f7f9fc', surfaceSubtle: '#f0f4fa', surfaceHover: '#e5edf8', ink: '#14213d', muted: '#64748b', mutedStrong: '#43536a', mutedSoft: '#8a99ad', line: '#d7e0ec', lineSubtle: '#e8eef5', blue: '#0a6ee8', blueHover: '#075bc4', blueSoft: '#e8f2ff', navy: '#102a43', focusRing: '#0a6ee838', overlay: '#102a4352', statusAssessmentFg: '#0e7490', statusAssessmentSoft: '#e6f6fb', statusAssessmentFill: '#1593b3',
+    statusSubmittedFg: '#5b6b7d', statusSubmittedSoft: '#eef2f6', statusSubmittedFill: '#8090a3', statusWrittenTestFg: '#6847be', statusWrittenTestSoft: '#f1edff', statusWrittenTestFill: '#7c5bd1', statusFirstInterviewFg: '#9a5a00', statusFirstInterviewSoft: '#fff5df', statusFirstInterviewFill: '#d99513', statusSecondInterviewFg: '#b94d08', statusSecondInterviewSoft: '#fff0e6', statusSecondInterviewFill: '#e66f17', statusThirdInterviewFg: '#b83c5b', statusThirdInterviewSoft: '#fff0f3', statusThirdInterviewFill: '#d75c78', statusHrInterviewFg: '#aa357e', statusHrInterviewSoft: '#fceef8', statusHrInterviewFill: '#c85b9d', statusOfferFg: '#167445', statusOfferSoft: '#e9f8ef', statusOfferFill: '#2fa866', statusRejectedFg: '#bd3b35', statusRejectedSoft: '#fff0ef', statusRejectedFill: '#dd625a',
+    priorityLowFg: '#0f766e', priorityLowSoft: '#e8f7f4', priorityLowFill: '#159a8c', priorityMediumFg: '#9a6700', priorityMediumSoft: '#fff6df', priorityMediumFill: '#d89614', priorityHighFg: '#b4235c', priorityHighSoft: '#fff0f6', priorityHighFill: '#d13b78'
+  }, {
+    canvas: '#0d1624', surface: '#142033', surfaceRaised: '#1c2b40', surfaceSubtle: '#101b2b', surfaceHover: '#263852', ink: '#edf5ff', muted: '#aabbd0', mutedStrong: '#d5e2f1', mutedSoft: '#8295ae', line: '#2a3d56', lineSubtle: '#1e3047', blue: '#63a8ff', blueHover: '#94c4ff', blueSoft: '#63a8ff26', navy: '#e9f3ff', focusRing: '#63a8ff59', overlay: '#00000094', statusAssessmentFg: '#7bd8e8', statusAssessmentSoft: '#173d4b', statusAssessmentFill: '#45b8cf',
+    statusSubmittedFg: '#b6c6d8', statusSubmittedSoft: '#26364b', statusSubmittedFill: '#8fa4bd', statusWrittenTestFg: '#c4b2ff', statusWrittenTestSoft: '#39315c', statusWrittenTestFill: '#a58cf2', statusFirstInterviewFg: '#f3c96e', statusFirstInterviewSoft: '#49391d', statusFirstInterviewFill: '#e2ae47', statusSecondInterviewFg: '#ffb488', statusSecondInterviewSoft: '#4a2e21', statusSecondInterviewFill: '#ee8a4b', statusThirdInterviewFg: '#ffafbf', statusThirdInterviewSoft: '#4c2835', statusThirdInterviewFill: '#e9829a', statusHrInterviewFg: '#f4a8da', statusHrInterviewSoft: '#4a2942', statusHrInterviewFill: '#df7fc1', statusOfferFg: '#7de0a5', statusOfferSoft: '#1c4331', statusOfferFill: '#57c982', statusRejectedFg: '#ffaaa4', statusRejectedSoft: '#4c292a', statusRejectedFill: '#ec7771',
+    priorityLowFg: '#75dfd3', priorityLowSoft: '#173f3b', priorityLowFill: '#45bbae', priorityMediumFg: '#f4ce79', priorityMediumSoft: '#483817', priorityMediumFill: '#d9a53c', priorityHighFg: '#ffa7ca', priorityHighSoft: '#4b2037', priorityHighFill: '#e7669a'
+  }),
+  scheme('indigo', '夜幕紫', {
+    canvas: '#faf8ff', surfaceSubtle: '#f3effa', surfaceHover: '#ebe5f7', ink: '#2c1d4e', muted: '#756b8b', mutedStrong: '#55496b', mutedSoft: '#968aa9', line: '#ddd5eb', lineSubtle: '#eee9f5', blue: '#6d4aff', blueHover: '#5633db', blueSoft: '#f0edff', navy: '#392268', focusRing: '#6d4aff38', overlay: '#2a164c52', statusAssessmentFg: '#2869aa', statusAssessmentSoft: '#eaf4fc', statusAssessmentFill: '#4d8ac8',
+    statusSubmittedFg: '#746d84', statusSubmittedSoft: '#f1eff5', statusSubmittedFill: '#948ca2', statusWrittenTestFg: '#6b42c7', statusWrittenTestSoft: '#f0eaff', statusWrittenTestFill: '#8157db', statusFirstInterviewFg: '#9b6200', statusFirstInterviewSoft: '#fff4dc', statusFirstInterviewFill: '#d99a23', statusSecondInterviewFg: '#ba5813', statusSecondInterviewSoft: '#fff0e7', statusSecondInterviewFill: '#df7b38', statusThirdInterviewFg: '#b54267', statusThirdInterviewSoft: '#fff0f4', statusThirdInterviewFill: '#d46686', statusHrInterviewFg: '#a9349a', statusHrInterviewSoft: '#fceefa', statusHrInterviewFill: '#c25cb3', statusOfferFg: '#197558', statusOfferSoft: '#e9f8f1', statusOfferFill: '#37a77b', statusRejectedFg: '#b43e4c', statusRejectedSoft: '#fff0f2', statusRejectedFill: '#d96270',
+    priorityLowFg: '#167d72', priorityLowSoft: '#e8f8f5', priorityLowFill: '#239c8e', priorityMediumFg: '#8e5900', priorityMediumSoft: '#fff5df', priorityMediumFill: '#ca8b16', priorityHighFg: '#a82e68', priorityHighSoft: '#fff0f7', priorityHighFill: '#c94680'
+  }, {
+    canvas: '#171126', surface: '#221a35', surfaceRaised: '#302546', surfaceSubtle: '#1b1430', surfaceHover: '#3d3155', ink: '#f6f0ff', muted: '#c1b4d3', mutedStrong: '#e4daf1', mutedSoft: '#9a8cac', line: '#423458', lineSubtle: '#302441', blue: '#aa91ff', blueHover: '#c5b3ff', blueSoft: '#aa91ff26', navy: '#f2ebff', focusRing: '#aa91ff59', overlay: '#00000096', statusAssessmentFg: '#84c3f2', statusAssessmentSoft: '#1b3b55', statusAssessmentFill: '#5e9dcc',
+    statusSubmittedFg: '#c4b9d1', statusSubmittedSoft: '#342b45', statusSubmittedFill: '#a195b0', statusWrittenTestFg: '#cfbfff', statusWrittenTestSoft: '#443566', statusWrittenTestFill: '#ae94f0', statusFirstInterviewFg: '#f2cb7d', statusFirstInterviewSoft: '#4a391d', statusFirstInterviewFill: '#dfa94a', statusSecondInterviewFg: '#f6b18b', statusSecondInterviewSoft: '#4b2e25', statusSecondInterviewFill: '#e99362', statusThirdInterviewFg: '#f3a9bd', statusThirdInterviewSoft: '#4c2938', statusThirdInterviewFill: '#df7e9b', statusHrInterviewFg: '#efa9e4', statusHrInterviewSoft: '#4d2948', statusHrInterviewFill: '#d97fc9', statusOfferFg: '#82ddba', statusOfferSoft: '#1e4337', statusOfferFill: '#59bd95', statusRejectedFg: '#f5a8af', statusRejectedSoft: '#4d2930', statusRejectedFill: '#df7783',
+    priorityLowFg: '#7de0d2', priorityLowSoft: '#173e3a', priorityLowFill: '#44bbac', priorityMediumFg: '#f0c56c', priorityMediumSoft: '#493718', priorityMediumFill: '#d5a13c', priorityHighFg: '#ffaad1', priorityHighSoft: '#4b2039', priorityHighFill: '#e7659f'
+  }),
+  scheme('jade', '森林绿', {
+    canvas: '#f4faf7', surfaceSubtle: '#eaf5ef', surfaceHover: '#dfeee6', ink: '#153b32', muted: '#617c73', mutedStrong: '#426157', mutedSoft: '#849c93', line: '#cfe2d9', lineSubtle: '#e3eee8', blue: '#087c62', blueHover: '#05664f', blueSoft: '#e3f6ef', navy: '#123f34', focusRing: '#087c6238', overlay: '#0e392e52', statusAssessmentFg: '#5046b8', statusAssessmentSoft: '#eeefff', statusAssessmentFill: '#6c63c9',
+    statusSubmittedFg: '#58736a', statusSubmittedSoft: '#edf5f1', statusSubmittedFill: '#7f9a90', statusWrittenTestFg: '#674dba', statusWrittenTestSoft: '#f1eeff', statusWrittenTestFill: '#8067d0', statusFirstInterviewFg: '#986300', statusFirstInterviewSoft: '#fff5df', statusFirstInterviewFill: '#d69a24', statusSecondInterviewFg: '#ad5b13', statusSecondInterviewSoft: '#fff1e7', statusSecondInterviewFill: '#d77d3c', statusThirdInterviewFg: '#af4653', statusThirdInterviewSoft: '#fff0f1', statusThirdInterviewFill: '#d46c74', statusHrInterviewFg: '#9d3d7e', statusHrInterviewSoft: '#fceff8', statusHrInterviewFill: '#bd659c', statusOfferFg: '#167457', statusOfferSoft: '#e4f7ef', statusOfferFill: '#32a67b', statusRejectedFg: '#b53e46', statusRejectedSoft: '#fff0f0', statusRejectedFill: '#d66269',
+    priorityLowFg: '#176f8c', priorityLowSoft: '#e7f5f9', priorityLowFill: '#2a91ad', priorityMediumFg: '#926100', priorityMediumSoft: '#fff5de', priorityMediumFill: '#cd911c', priorityHighFg: '#a63b6c', priorityHighSoft: '#fff0f6', priorityHighFill: '#c85385'
+  }, {
+    canvas: '#0d1d19', surface: '#162a24', surfaceRaised: '#203a32', surfaceSubtle: '#10241e', surfaceHover: '#2b493f', ink: '#edf9f3', muted: '#aec4ba', mutedStrong: '#d4e8de', mutedSoft: '#839d92', line: '#2c4a40', lineSubtle: '#20382f', blue: '#4ed0a8', blueHover: '#7be2c2', blueSoft: '#4ed0a826', navy: '#e8f8f0', focusRing: '#4ed0a859', overlay: '#00000090', statusAssessmentFg: '#b6a8ff', statusAssessmentSoft: '#39345d', statusAssessmentFill: '#9185dc',
+    statusSubmittedFg: '#b5cdc2', statusSubmittedSoft: '#294139', statusSubmittedFill: '#88a79b', statusWrittenTestFg: '#c0b4ff', statusWrittenTestSoft: '#3d365e', statusWrittenTestFill: '#a08ee4', statusFirstInterviewFg: '#efca78', statusFirstInterviewSoft: '#4b3b20', statusFirstInterviewFill: '#dca84a', statusSecondInterviewFg: '#edb38b', statusSecondInterviewSoft: '#4b3226', statusSecondInterviewFill: '#df9161', statusThirdInterviewFg: '#efa5aa', statusThirdInterviewSoft: '#4c2b30', statusThirdInterviewFill: '#db7d83', statusHrInterviewFg: '#eca7d6', statusHrInterviewSoft: '#4b2a43', statusHrInterviewFill: '#d27eb4', statusOfferFg: '#7be0ba', statusOfferSoft: '#1c4336', statusOfferFill: '#50be91', statusRejectedFg: '#f1a6aa', statusRejectedSoft: '#4c2a2c', statusRejectedFill: '#dc777b',
+    priorityLowFg: '#77c9eb', priorityLowSoft: '#183b48', priorityLowFill: '#48a8cc', priorityMediumFg: '#edc66f', priorityMediumSoft: '#4a3a1a', priorityMediumFill: '#d6a13b', priorityHighFg: '#f7a9cd', priorityHighSoft: '#4c2038', priorityHighFill: '#dd6698'
+  })
+];
+
+const tokenNames = Object.keys(lightBase);
+const idPattern = /^[a-z][a-z0-9-]{1,31}$/;
+const colorPattern = /^#[0-9a-f]{6}([0-9a-f]{2})?$/i;
+
+function normalize(raw) {
+  if (!raw || typeof raw !== 'object' || !idPattern.test(raw.id) || typeof raw.label !== 'string' || !raw.label.trim()) throw new Error('配色方案格式无效');
+  const read = (appearance, base) => {
+    const input = raw[appearance] || {};
+    if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('配色缺少亮色或深色配置');
+    Object.entries(input).forEach(([key, value]) => {
+      if (!tokenNames.includes(key)) throw new Error(`配色 token 无效：${key}`);
+      if (!colorPattern.test(value)) throw new Error(`配色值无效：${key}`);
+    });
+    const overrides = Object.fromEntries(Object.entries(input));
+    return { ...base, ...overrides };
+  };
+  return { id: raw.id, label: raw.label.trim().slice(0, 24), light: read('light', lightBase), dark: read('dark', darkBase) };
+}
+
+function mergeColorSchemes(overrides = []) {
+  const merged = new Map(BUILT_IN_COLOR_SCHEMES.map(item => [item.id, item]));
+  overrides.forEach(item => { const value = normalize(item); merged.set(value.id, value); });
+  return [...merged.values()];
+}
+
+function parseColorSchemeFile(raw) {
+  if (!raw || raw.type !== COLOR_SCHEME_FILE_TYPE || raw.version !== COLOR_SCHEME_FILE_VERSION || !Array.isArray(raw.schemes)) throw new Error('不是可识别的秋招助手配色文件');
+  if (raw.schemes.length > 20) throw new Error('一次最多导入 20 套配色');
+  return raw.schemes.map(normalize);
+}
+
+function colorSchemeFile(schemes) {
+  return { type: COLOR_SCHEME_FILE_TYPE, version: COLOR_SCHEME_FILE_VERSION, exportedAt: new Date().toISOString(), schemes: schemes.map(normalize) };
+}
+
+function applyColorScheme(root, activeScheme, appearance) {
+  const scheme = normalize(activeScheme);
+  const palette = appearance === 'dark' ? scheme.dark : scheme.light;
+  tokenNames.forEach(key => root.style.setProperty(`--${key.replace(/[A-Z]/g, char => `-${char.toLowerCase()}`)}`, palette[key]));
+}
+
+return { COLOR_SCHEME_FILE_TYPE, COLOR_SCHEME_FILE_VERSION, BUILT_IN_COLOR_SCHEMES, mergeColorSchemes, parseColorSchemeFile, colorSchemeFile, applyColorScheme };
+})();
+
+const COLOR_SCHEME_KEY = 'autumn-recruit-assistant.color-scheme.v1.0';
+const COLOR_SCHEME_OVERRIDES_KEY = 'autumn-recruit-assistant.color-scheme-overrides.v1.0';
+const root = document.querySelector('#app');
+let state = loadState();
+let colorSchemeOverrides = loadColorSchemeOverrides();
+let colorSchemes = ColorSchemes.mergeColorSchemes(colorSchemeOverrides);
+let colorScheme = loadColorScheme();
+let view = 'overview';
+let search = '';
+// Sort rules are deliberately kept outside persisted data: they are a temporary
+// reading preference, not part of a user's application history.
+let sortRules = [];
+let showDeleted = false;
+let drawerApplicationId = null;
+let modal = null;
+let toastTimer;
+
+function loadState() {
+  try {
+    const loaded = Storage.loadState();
+    validateState(loaded);
+    return loaded;
+  } catch (error) {
+    console.warn('本地数据读取失败，已使用空白状态', error);
+    return Core.emptyState();
+  }
+}
+
+function loadColorScheme() {
+  try {
+    const saved = localStorage.getItem(COLOR_SCHEME_KEY);
+    return colorSchemes.some(scheme => scheme.id === saved) ? saved : 'apple';
+  } catch (error) {
+    console.warn('配色偏好读取失败，已使用默认配色', error);
+    return 'apple';
+  }
+}
+
+function loadColorSchemeOverrides() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(COLOR_SCHEME_OVERRIDES_KEY) || '[]');
+    return Array.isArray(raw) ? ColorSchemes.parseColorSchemeFile({ type: ColorSchemes.COLOR_SCHEME_FILE_TYPE, version: ColorSchemes.COLOR_SCHEME_FILE_VERSION, schemes: raw }) : [];
+  } catch (error) {
+    console.warn('自定义配色读取失败，已忽略', error);
+    return [];
+  }
+}
+
+function saveColorScheme() {
+  localStorage.setItem(COLOR_SCHEME_KEY, colorScheme);
+}
+
+function saveColorSchemeOverrides() {
+  localStorage.setItem(COLOR_SCHEME_OVERRIDES_KEY, JSON.stringify(colorSchemeOverrides));
+}
+
+function activeColorScheme() { return colorSchemes.find(scheme => scheme.id === colorScheme) || colorSchemes[0]; }
+
+function save() {
+  Storage.saveState(state);
+}
+
+function currentTheme() {
+  return state.settings?.theme === 'dark' ? 'dark' : 'light';
+}
+
+function esc(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+}
+
+function today() { return new Date().toISOString().slice(0, 10); }
+function appFor(id) { return state.applications.find(item => item.id === id); }
+function safeUrl(value) {
+  try {
+    const url = new URL(String(value || '').trim());
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+  } catch { return ''; }
+}
+
+function applicationLink(app, label = '打开岗位网址') {
+  const url = safeUrl(app.website);
+  return url ? `<a class="icon-button external-link" href="${esc(url)}" target="_blank" rel="noreferrer" title="${label}" aria-label="${label}">↗</a>` : '<span class="icon-button external-link disabled" title="未填写网址" aria-label="未填写网址" aria-disabled="true">↗</span>';
+}
+function statusBadge(status, compact = false) {
+  const meta = Core.STATUS_META[status] || Core.STATUS_META['已投递'];
+  return `<span class="status-badge tone-${meta.tone} ${compact ? 'compact' : ''}">${esc(status)}</span>`;
+}
+function priorityBadge(priority) {
+  const value = priority || '中';
+  return `<span class="priority-badge priority-${esc(value)}">${esc(value)}</span>`;
+}
+
+function selectOptions(selected, includeAll = false) {
+  const options = includeAll ? ['全部状态', ...Core.STATUSES] : Core.STATUSES;
+  return options.map(item => `<option value="${esc(item)}" ${item === selected ? 'selected' : ''}>${esc(item)}</option>`).join('');
+}
+
+function priorityOptions(selected) {
+  return Core.PRIORITIES.map(item => `<option value="${esc(item)}" ${item === selected ? 'selected' : ''}>${esc(item)}</option>`).join('');
+}
+
+function channelOptions(selected) {
+  return Core.CHANNELS.map(item => `<option value="${esc(item)}" ${item === selected ? 'selected' : ''}>${esc(item)}</option>`).join('');
+}
+
+function render() {
+  document.documentElement.dataset.theme = currentTheme();
+  document.documentElement.dataset.colorScheme = colorScheme;
+  document.body.classList.toggle('drawer-open', Boolean(drawerApplicationId));
+  document.body.classList.toggle('modal-open', Boolean(modal));
+  ColorSchemes.applyColorScheme(document.documentElement, activeColorScheme(), currentTheme());
+  root.innerHTML = `<div class="app-shell">
+    ${renderSidebar()}
+    <main class="main-area">
+      ${renderTopbar()}
+      <div class="page-content">${view === 'overview' ? renderOverview() : view === 'applications' ? renderApplications() : renderData()}</div>
+    </main>
+    ${drawerApplicationId ? renderDrawer(drawerApplicationId) : ''}
+    ${modal ? renderModal() : ''}
+    <div id="toast" class="toast" aria-live="polite"></div>
+    <input id="importInput" type="file" accept="application/json,.json" hidden />
+    <input id="colorSchemeImportInput" type="file" accept="application/json,.json" hidden />
+  </div>`;
+  bindEvents();
+}
+
+function renderSidebar() {
+  const total = Core.visibleApplications(state).length;
+  return `<aside class="sidebar">
+    <div class="brand"><span class="brand-mark">秋</span><div><strong>秋招助手</strong><small>Autumn Desk</small></div></div>
+    <div class="workspace-label">MY WORKSPACE</div>
+    <nav class="nav-list">
+      <button class="nav-item ${view === 'overview' ? 'active' : ''}" data-view="overview"><span class="nav-icon">◒</span>秋招全景</button>
+      <button class="nav-item ${view === 'applications' ? 'active' : ''}" data-view="applications"><span class="nav-icon">▤</span>全部投递 <em>${total}</em></button>
+      <button class="nav-item ${view === 'data' ? 'active' : ''}" data-view="data"><span class="nav-icon">◫</span>数据与安全</button>
+    </nav>
+    <div class="sidebar-spacer"></div>
+    <div class="safety-note"><span>⌁</span><div><strong>数据只在本机</strong><p>自动保存 · 随时导出备份</p></div></div>
+    <div class="sidebar-footer">秋招助手 <span>v${Core.APP_VERSION}</span></div>
+  </aside>`;
+}
+
+function renderTopbar() {
+  const titles = { overview: ['秋招全景', '保持节奏，记录每一次进展。'], applications: ['投递记录', '所有机会都在这里，清晰可追溯。'], data: ['数据与安全', '备份、恢复与本地数据管理。'] };
+  const [title, subtitle] = titles[view];
+  const dark = currentTheme() === 'dark';
+  return `<header class="topbar"><div><div class="eyebrow">${view === 'overview' ? '2026 AUTUMN RECRUITMENT' : 'AUTUMN DESK'}</div><h1>${title}</h1><p>${subtitle}</p></div><div class="top-actions"><label class="scheme-picker"><span class="scheme-swatch" aria-hidden="true"></span><select id="colorScheme" aria-label="选择配色方案">${colorSchemes.map(scheme => `<option value="${scheme.id}" ${scheme.id === colorScheme ? 'selected' : ''}>${esc(scheme.label)}</option>`).join('')}</select></label><button class="theme-toggle" type="button" data-action="toggleTheme" aria-pressed="${dark}" title="切换为${dark ? '浅色' : '深色'}模式"><span aria-hidden="true">${dark ? '☾' : '☀'}</span>${dark ? '深色' : '浅色'}</button><button class="button ghost" data-action="export">导出备份</button><button class="button primary" data-action="new">＋ 新增投递</button></div></header>`;
+}
+
+function renderOverview() {
+  const apps = Core.visibleApplications(state);
+  const interviewCount = apps.filter(a => ['一面', '二面', '三面', 'HR 面'].includes(a.status)).length;
+  const offerCount = apps.filter(a => a.status === 'Offer').length;
+  const progressing = apps.filter(a => a.status !== '拒绝').length;
+  const recent = state.applications.flatMap(application => application.history.map(event => ({ application, event }))).sort((a, b) => b.event.timestamp.localeCompare(a.event.timestamp)).slice(0, 6);
+  const maxCount = Math.max(1, ...Core.STATUSES.map(status => apps.filter(a => a.status === status).length));
+  return `<section class="overview">
+    <div class="welcome-row"><div><span class="date-chip">${new Intl.DateTimeFormat('zh-CN', { dateStyle: 'full' }).format(new Date())}</span><h2>你好，今天也向前一步。</h2></div></div>
+    <div class="stats-grid">
+      ${statCard('总投递', apps.length, '自开始记录以来', 'total', '↗')}
+      ${statCard('推进中', progressing, '尚未结束的机会', 'progress', '◔')}
+      ${statCard('面试中', interviewCount, '正在进行的面试', 'interview', '◎')}
+      ${statCard('Offer', offerCount, '值得庆祝的时刻', 'offer', '★')}
+    </div>
+    <div class="overview-grid">
+      <section class="panel funnel-panel"><div class="panel-heading"><div><span class="section-kicker">PIPELINE</span><h3>状态分布</h3></div><button class="text-button" data-view="applications">查看全部 →</button></div><div class="funnel-list">${Core.STATUSES.map(status => { const count = apps.filter(a => a.status === status).length; return `<div class="funnel-row"><span class="funnel-label">${statusBadge(status, true)}</span><div class="bar-track"><div class="bar tone-${Core.STATUS_META[status].tone}" style="width:${Math.max(count ? 8 : 0, count / maxCount * 100)}%"></div></div><strong>${count}</strong></div>`; }).join('')}</div></section>
+      <section class="panel recent-panel"><div class="panel-heading"><div><span class="section-kicker">ACTIVITY</span><h3>最近动态</h3></div><span class="muted">${state.applications.reduce((total, app) => total + app.history.length, 0)} 条记录</span></div><div class="activity-list">${recent.length ? recent.map(renderActivity).join('') : emptyState('还没有动态记录', '新增一条投递，开始你的秋招旅程。') }</div></section>
+    </div>
+    ${renderTodayTip()}
+  </section>`;
+}
+
+function statCard(title, value, desc, tone, icon) { return `<div class="stat-card ${tone}"><div class="stat-icon">${icon}</div><div class="stat-title">${title}</div><div class="stat-value">${value}</div><div class="stat-desc">${desc}</div></div>`; }
+
+function renderTodayTip() { return `<div class="tip-card"><div class="tip-mark">✦</div><div><span class="section-kicker">A LITTLE REMINDER</span><p>投递不是一次性的动作，给每个机会留下一点记录，回头就能看见自己的成长。</p></div><span class="tip-decoration">✳</span></div>`; }
+
+const FIELD_PRESENTATION = {
+  base: { label: 'Base 地', renderer: 'generic' }, website: { label: '投递网址', renderer: 'generic' }, applicationDate: { label: '投递日期', renderer: 'generic' }, status: { label: '状态', renderer: 'status' }, channel: { label: '投递渠道', renderer: 'generic' }, priority: { label: '优先级', renderer: 'priority' }, note: { label: '备注', renderer: 'generic' }
+};
+function eventTitle(event) { return event.type === 'created' ? '创建投递' : event.type === 'soft_deleted' ? '删除投递' : event.type === 'restored' ? '恢复投递' : event.field === 'status' ? '状态变更' : event.field === 'priority' ? '优先级变更' : `修改了${FIELD_PRESENTATION[event.field]?.label || event.field}`; }
+function eventSummary(event, application) { return event.type === 'created' ? `已记录「${application.position}」` : event.type === 'soft_deleted' ? '将该投递移入已删除' : event.type === 'restored' ? '恢复了该投递' : event.field === 'status' ? '更新了状态' : event.field === 'priority' ? '更新了优先级' : `修改了${FIELD_PRESENTATION[event.field]?.label || event.field}`; }
+function eventTone(event) { return event.type === 'soft_deleted' ? 'rejected' : event.type === 'restored' ? 'offer' : event.field === 'status' ? Core.STATUS_META[event.to]?.tone || 'activity' : 'activity'; }
+function renderActivity(item) {
+  const { application, event } = item;
+  const content = `<span class="activity-dot ${eventTone(event)}"></span><span class="activity-copy"><strong>${esc(application.company)}<em>${esc(application.position)}</em></strong><span>${esc(eventSummary(event, application))}</span></span><time>${Core.formatDateTime(event.timestamp)}</time>`;
+  return `<button class="activity-item" data-application="${esc(application.id)}">${content}</button>`;
+}
+
+const SORT_COLUMNS = [
+  { key: 'company', label: '公司 / 岗位' },
+  { key: 'base', label: 'Base 地' },
+  { key: 'channel', label: '渠道' },
+  { key: 'applicationDate', label: '投递日期' },
+  { key: 'status', label: '当前状态' },
+  { key: 'updatedAt', label: '最后更新' },
+  { key: 'priority', label: '优先级' }
+];
+
+function sortRuleFor(key) { return sortRules.find(rule => rule.key === key); }
+function sortHeader(column) {
+  const rule = sortRuleFor(column.key);
+  const direction = rule ? (rule.direction === 'asc' ? '升序' : '降序') : '未排序';
+  const marker = rule ? `<span class="sort-marker ${rule.direction}">${rule.direction === 'asc' ? '↑' : '↓'}<sup>${sortRules.indexOf(rule) + 1}</sup></span>` : '<span class="sort-marker">↕</span>';
+  const priorityHint = rule ? `第 ${sortRules.indexOf(rule) + 1} 排序级；仅当前面排序级相同时参与比较。` : '点击加入组合排序；先选择的列优先级更高。';
+  return `<button class="sort-button ${rule ? 'is-sorted' : ''}" type="button" data-sort="${column.key}" aria-label="按${column.label}${direction}排序" title="${priorityHint} 点击切换升序、降序或取消排序">${esc(column.label)}${marker}</button>`;
+}
+
+function sortDescription() {
+  if (!sortRules.length) return '默认按最近更新排列';
+  const labels = new Map(SORT_COLUMNS.map(column => [column.key, column.label]));
+  return sortRules.map((rule, index) => `${index + 1}. ${labels.get(rule.key)}${rule.direction === 'asc' ? '↑' : '↓'}`).join(' · ');
+}
+
+function filteredApplications() {
+  let apps = state.applications.filter(app => showDeleted || !app.deletedAt);
+  const needle = search.trim().toLocaleLowerCase();
+  if (needle) apps = apps.filter(app => [app.company, app.position, app.base, app.note, app.channel, app.priority].join(' ').toLocaleLowerCase().includes(needle));
+  // Preserve the familiar "recently updated" view until the user creates a
+  // custom combination of column sorts.
+  const rules = sortRules.length ? sortRules : [{ key: 'updatedAt', direction: 'desc' }];
+  return Core.sortApplications(apps, rules);
+}
+
+function renderApplications() {
+  const apps = filteredApplications();
+  const activeSortDescription = sortDescription();
+  return `<section class="applications-page"><div class="list-intro"><div><span class="section-kicker">YOUR PIPELINE</span><h2>全部投递 <span>${Core.visibleApplications(state).length}</span></h2></div><p>在列表行末统一编辑，详情页专注回看每个机会的完整轨迹。</p></div>
+    <div class="toolbar"><label class="search-box"><span>⌕</span><input id="searchInput" value="${esc(search)}" placeholder="搜索公司、岗位或备注" /></label><span class="sort-hint">${activeSortDescription}</span><button class="filter-toggle ${showDeleted ? 'on' : ''}" data-action="toggleDeleted">${showDeleted ? '✓ 显示已删除' : '显示已删除'}</button><button class="reset-sort" data-action="resetSort" ${sortRules.length ? '' : 'disabled'} title="清除所有自定义排序">↺ 重置排序</button></div>
+    <div class="table-panel"><div class="table-head">${SORT_COLUMNS.map(sortHeader).join('')}<span></span></div>${apps.length ? apps.map(renderApplicationRow).join('') : emptyState('没有找到匹配的投递', search ? '试试调整搜索关键词。' : '点击右上角，记录你的第一条投递。')}</div>
+    </section>`;
+}
+
+function renderApplicationRow(app) {
+  const deleted = !!app.deletedAt;
+  const tone = Core.STATUS_META[app.status]?.tone || 'slate';
+  const priority = app.priority || '中';
+  return `<div class="table-row tone-row-${tone} ${deleted ? 'deleted-row' : ''}"><div class="company-cell"><button class="company-name" data-application="${esc(app.id)}" title="${esc(app.company)}">${esc(app.company)}</button><span title="${esc(app.position)}">${esc(app.position)}${deleted ? ' · 已删除' : ''}</span></div><div class="cell muted base-cell" title="${esc(app.base || '—')}">${esc(app.base || '—')}</div><div class="cell channel-cell" title="${esc(app.channel || '官网')}">${esc(app.channel || '官网')}</div><div class="cell date-cell">${Core.formatDate(app.applicationDate)}</div><div class="cell status-cell">${deleted ? '<span class="deleted-label">已删除</span>' : statusBadge(app.status, true)}</div><div class="cell muted updated-cell">${Core.formatDateTime(app.updatedAt)}</div><div class="cell priority-cell">${priorityBadge(priority)}</div><div class="row-actions">${deleted ? `<button class="icon-button green-icon" title="恢复投递" aria-label="恢复投递" data-action="restore" data-id="${esc(app.id)}">↺</button><button class="icon-button danger-icon" title="彻底删除" aria-label="彻底删除" data-action="purge" data-id="${esc(app.id)}">×</button>` : `${applicationLink(app)}<button class="icon-button" title="编辑投递" aria-label="编辑投递" data-action="edit" data-id="${esc(app.id)}">✎</button><button class="icon-button danger-icon" title="删除投递" aria-label="删除投递" data-action="delete" data-id="${esc(app.id)}">×</button>`}</div></div>`;
+}
+
+function renderData() {
+  return `<section class="data-page"><div class="list-intro"><div><span class="section-kicker">LOCAL FIRST</span><h2>数据与安全</h2></div><p>所有数据都保存在当前浏览器中，不会上传到任何服务器。</p></div><div class="data-grid"><section class="panel data-card"><div class="data-card-icon blue-icon">⇩</div><h3>导出完整备份</h3><p>将投递记录、完整历史和设置保存为一个 JSON 文件。建议定期备份。</p><button class="button primary" data-action="export">导出备份文件</button></section><section class="panel data-card"><div class="data-card-icon violet-icon">⇧</div><h3>导入备份</h3><p>仅校验完整的 JSON 备份才会替换当前数据。导入前请先导出当前数据。</p><button class="button secondary" data-action="import">选择备份文件</button></section></div><section class="panel appearance-panel"><div><span class="section-kicker">APPEARANCE</span><h3>配色方案配置</h3><p>当前使用「${esc(activeColorScheme().label)}」。配色独立于投递备份，可单独迁移或编辑。</p></div><div class="appearance-actions"><button class="button secondary" data-action="exportColorSchemes">导出配色</button><button class="button ghost" data-action="importColorSchemes">导入配色</button></div></section><section class="storage-note"><span>✓</span><div><strong>当前存储状态正常</strong><p>本地状态包含 ${state.applications.length} 条投递和 ${state.applications.reduce((total, app) => total + app.history.length, 0)} 条历史事件。</p></div></section></section>`;
+}
+
+function renderDrawer(applicationId) {
+  const app = appFor(applicationId);
+  if (!app) return '';
+  const events = Core.applicationEvents(state, app.id);
+  return `<div class="drawer-backdrop" data-action="closeDrawer"></div><aside class="drawer"><div class="drawer-head"><div><span class="company-avatar">${esc(app.company.slice(0, 1))}</span><div class="drawer-title"><span class="section-kicker">APPLICATION DETAIL</span><h2>${esc(app.company)}</h2></div></div><button class="close-button" data-action="closeDrawer">×</button></div><div class="drawer-body"><section class="drawer-section"><div class="section-title"><h3>投递信息</h3><span>仅此岗位</span></div><p class="drawer-readonly-hint">此处仅供查看；请在投递列表行末编辑。</p><article class="drawer-app ${app.deletedAt ? 'deleted-card' : ''}"><div class="drawer-app-top"><strong>${esc(app.position)}</strong>${app.deletedAt ? '<span class="deleted-label">已删除</span>' : statusBadge(app.status, true)}</div><dl class="drawer-facts"><div><dt>投递日期</dt><dd>${Core.formatDate(app.applicationDate)}</dd></div></dl><div class="drawer-note-block"><span>备注</span><p class="drawer-note ${app.note ? '' : 'is-empty'}">${esc(app.note || '暂无备注')}</p></div></article></section><section class="drawer-section timeline-section"><div class="section-title"><h3>完整时间线</h3><span>${events.length} 条记录</span></div><div class="timeline">${events.length ? events.map(event => `<div class="timeline-item timeline-tone-${eventTone(event)}"><span class="timeline-line"></span><span class="timeline-dot ${event.type === 'field_changed' && ['status', 'priority'].includes(event.field) ? 'active' : ''}"></span><div class="timeline-content"><div class="timeline-meta"><div><strong>${esc(eventTitle(event))}</strong><span class="timeline-role">${esc(app.position)}</span></div><time>${Core.formatDateTime(event.timestamp)}</time></div><p>${esc(eventSummary(event, app))}</p>${event.type === 'field_changed' && event.field === 'status' ? `<div class="change-pills">${statusBadge(event.from, true)}<span>→</span>${statusBadge(event.to, true)}</div>` : event.type === 'field_changed' && event.field === 'priority' ? `<div class="change-pills">${priorityBadge(event.from)}<span>→</span>${priorityBadge(event.to)}</div>` : ''}</div></div>`).join('') : '<div class="empty-inline">还没有历史事件。</div>'}</div></section></div></aside>`;
+}
+
+function renderModal() {
+  const app = modal.mode === 'edit' ? appFor(modal.id) : null;
+  const values = modal.mode === 'edit' ? { company: app.company, website: app.website || '', priority: app.priority || '中', channel: app.channel || '官网', position: app.position, base: app.base, applicationDate: app.applicationDate, status: app.status, note: app.note } : { company: '', website: '', priority: '中', channel: '官网', position: '', base: '', applicationDate: today(), status: '已投递', note: '' };
+  const priorityField = `<label>优先级<select name="priority">${priorityOptions(values.priority)}</select></label>`;
+  const channelField = `<label>投递渠道<select name="channel">${channelOptions(values.channel)}</select></label>`;
+  return `<div class="modal-backdrop" data-action="closeModal"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><div><span class="section-kicker">${modal.mode === 'edit' ? 'EDIT APPLICATION' : 'NEW APPLICATION'}</span><h2 id="modalTitle">${modal.mode === 'edit' ? '编辑投递' : '记录一条新投递'}</h2></div><button class="close-button" data-action="closeModal">×</button></div><form id="applicationForm"><div class="form-grid"><label class="full">公司名称<input name="company" value="${esc(values.company)}" ${modal.mode === 'edit' ? 'disabled' : ''} required placeholder="例如：字节跳动" /></label><label>岗位名称<input name="position" value="${esc(values.position)}" ${modal.mode === 'edit' ? 'disabled' : ''} required placeholder="例如：产品经理" /></label><label>Base 地<input name="base" value="${esc(values.base)}" placeholder="例如：北京" /></label><label>投递日期<input type="date" name="applicationDate" value="${esc(values.applicationDate)}" required /></label><label>当前状态<select name="status">${selectOptions(values.status)}</select></label>${priorityField}${channelField}<label class="full">投递网址<input type="url" name="website" value="${esc(values.website)}" placeholder="https://..." /><small>按岗位保存；同一公司不同岗位可填写不同网址。</small></label><label class="full">备注<textarea name="note" rows="3" placeholder="记录内推人、进展、准备事项等">${esc(values.note)}</textarea></label></div><div class="modal-foot"><button type="button" class="button ghost" data-action="closeModal">取消</button><button type="submit" class="button primary">${modal.mode === 'edit' ? '保存修改' : '创建投递'}</button></div></form></section></div>`;
+}
+
+function emptyState(title, desc) { return `<div class="empty-state"><div class="empty-icon">○</div><strong>${title}</strong><p>${desc}</p></div>`; }
+
+function bindEvents() {
+  root.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => { view = button.dataset.view; render(); }));
+  root.querySelectorAll('[data-application]').forEach(button => button.addEventListener('click', () => { drawerApplicationId = button.dataset.application; render(); }));
+  root.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', event => {
+    if (button.classList.contains('modal-backdrop')) return;
+    if (button.classList.contains('drawer-backdrop') && event.target !== event.currentTarget) return;
+    handleAction(button.dataset.action, button.dataset.id);
+  }));
+  root.querySelectorAll('[data-sort]').forEach(button => button.addEventListener('click', () => toggleSort(button.dataset.sort)));
+  root.querySelector('#searchInput')?.addEventListener('input', event => { search = event.target.value; renderApplicationsInPlace(); });
+  root.querySelector('#colorScheme')?.addEventListener('change', event => {
+    if (colorSchemes.some(scheme => scheme.id === event.target.value)) {
+      colorScheme = event.target.value;
+      saveColorScheme();
+      render();
+    }
+  });
+  root.querySelector('#applicationForm')?.addEventListener('submit', submitApplication);
+  root.querySelector('#importInput')?.addEventListener('change', importFile);
+  root.querySelector('#colorSchemeImportInput')?.addEventListener('change', importColorSchemes);
+}
+
+function bindTableEvents() {
+  const table = root.querySelector('.table-panel');
+  if (!table) return;
+  table.querySelectorAll('[data-application]').forEach(button => button.addEventListener('click', () => { drawerApplicationId = button.dataset.application; render(); }));
+  table.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', () => handleAction(button.dataset.action, button.dataset.id)));
+  table.querySelectorAll('[data-sort]').forEach(button => button.addEventListener('click', () => toggleSort(button.dataset.sort)));
+}
+
+function renderApplicationsInPlace() { const panel = root.querySelector('.table-panel'); if (panel) panel.outerHTML = `<div class="table-panel"><div class="table-head">${SORT_COLUMNS.map(sortHeader).join('')}<span></span></div>${filteredApplications().map(renderApplicationRow).join('') || emptyState('没有找到匹配的投递', '试试调整搜索条件。')}</div>`; bindTableEvents(); }
+
+function toggleSort(key) {
+  sortRules = Core.nextSortRules(sortRules, key);
+  render();
+}
+
+function handleAction(action, itemId) {
+  if (action === 'toggleTheme') {
+    state.settings = { ...(state.settings || {}), theme: currentTheme() === 'dark' ? 'light' : 'dark' };
+    save();
+    render();
+    toast(`已切换为${currentTheme() === 'dark' ? '深色' : '浅色'}模式`);
+    return;
+  }
+  if (action === 'new') { modal = { mode: 'new' }; render(); return; }
+  if (action === 'edit') { modal = { mode: 'edit', id: itemId }; render(); return; }
+  if (action === 'closeModal') { modal = null; render(); return; }
+  if (action === 'closeDrawer') { drawerApplicationId = null; render(); return; }
+  if (action === 'delete') {
+    const app = appFor(itemId);
+    if (app && window.confirm(`确定删除「${app.company} · ${app.position}」吗？\n历史记录会保留，也可以从“显示已删除”中恢复。`)) { Core.softDeleteApplication(state, itemId); save(); modal = null; toast('已删除投递，历史记录仍然保留'); render(); }
+  }
+  if (action === 'restore') { Core.restoreApplication(state, itemId); save(); toast('投递已恢复'); render(); }
+  if (action === 'purge') {
+    const app = appFor(itemId);
+    if (app && window.confirm(`彻底删除「${app.company} · ${app.position}」吗？\n该投递及其完整时间线将被永久清除，无法恢复。`)) {
+      Core.purgeApplication(state, itemId); save();
+      if (drawerApplicationId === itemId) drawerApplicationId = null;
+      toast('投递及其完整历史已彻底删除'); render();
+    }
+  }
+  if (action === 'toggleDeleted') { showDeleted = !showDeleted; render(); }
+  if (action === 'resetSort') { sortRules = []; render(); }
+  if (action === 'export') exportBackup();
+  if (action === 'import') root.querySelector('#importInput')?.click();
+  if (action === 'exportColorSchemes') exportColorSchemes();
+  if (action === 'importColorSchemes') root.querySelector('#colorSchemeImportInput')?.click();
+}
+
+function submitApplication(event) {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+  try {
+    if (data.website && !safeUrl(data.website)) throw new Error('网址仅支持以 http:// 或 https:// 开头的地址');
+    if (modal.mode === 'edit') {
+      const at = new Date().toISOString();
+      Core.updateApplication(state, modal.id, data, at);
+      save(); toast('投递信息已更新'); modal = null; render(); return;
+    }
+    Core.createApplication(state, data);
+    save(); toast('投递已记录'); modal = null; view = 'applications'; render();
+  } catch (error) { toast(error.message || '保存失败', 'error'); }
+}
+
+function exportBackup() {
+  try {
+    const backup = Backup.buildBackup(state);
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = `autumn-desk-backup-${backup.exportedAt.slice(0, 10)}.json`; link.click(); URL.revokeObjectURL(url); toast('备份文件已导出');
+  } catch (error) { toast(`当前数据存在异常，无法导出：${error.message || '校验失败'}`, 'error'); }
+}
+
+function exportColorSchemes() {
+  const config = ColorSchemes.colorSchemeFile(colorSchemes);
+  const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = `autumn-desk-color-schemes-${config.exportedAt.slice(0, 10)}.json`; link.click(); URL.revokeObjectURL(url); toast('配色配置已导出');
+}
+
+async function importColorSchemes(event) {
+  const file = event.target.files?.[0]; event.target.value = '';
+  if (!file) return;
+  try {
+    const imported = ColorSchemes.parseColorSchemeFile(JSON.parse(await file.text()));
+    colorSchemeOverrides = imported;
+    colorSchemes = ColorSchemes.mergeColorSchemes(colorSchemeOverrides);
+    if (!colorSchemes.some(scheme => scheme.id === colorScheme)) colorScheme = colorSchemes[0].id;
+    saveColorSchemeOverrides(); saveColorScheme(); render(); toast(`已导入 ${imported.length} 套配色`);
+  } catch (error) { toast(`配色导入失败：${error.message || '文件格式不正确'}`, 'error'); }
+}
+
+async function importFile(event) {
+  const file = event.target.files?.[0]; event.target.value = '';
+  if (!file) return;
+  try {
+    const parsed = JSON.parse(await file.text());
+    const imported = Backup.parseBackup(parsed);
+    if (!window.confirm(`确认导入这份备份吗？\n将恢复 ${imported.applications.length} 条投递，并替换当前数据。请确认你已导出当前数据。`)) return;
+    state = imported;
+    save(); drawerApplicationId = null; toast('备份已恢复'); render();
+  } catch (error) { toast(`导入失败：${error.message || '文件格式不正确'}`, 'error'); }
+}
+
+function toast(message, type = 'success') { const item = root.querySelector('#toast'); if (!item) return; item.textContent = message; item.className = `toast show ${type}`; clearTimeout(toastTimer); toastTimer = setTimeout(() => item.classList.remove('show'), 2800); }
+
+document.addEventListener('keydown', event => { if (event.key === 'Escape' && !modal && drawerApplicationId) { drawerApplicationId = null; render(); } });
+
+render();
+</script>
+  </body>
+</html>
